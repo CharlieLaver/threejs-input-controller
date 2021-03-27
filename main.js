@@ -181,20 +181,37 @@ class BasicCharacterControllerInput {
     document.addEventListener('keyup', (e) => this._onKeyUp(e), false);
   }
 
+  //keyboard navigation
   _onKeyDown(event) {
     switch (event.keyCode) {
       case 87: // w
         this._keys.forward = true;
         break;
+      case 38: // arrow up
+        this._keys.forward = true;
+        break;
+
       case 65: // a
         this._keys.left = true;
         break;
+      case 37: // arrow left
+        this._keys.left = true;
+        break;
+
       case 83: // s
         this._keys.backward = true;
         break;
+      case 40: // arrow down
+        this._keys.backward = true;
+        break;
+
       case 68: // d
         this._keys.right = true;
         break;
+      case 39: // arrow right
+        this._keys.right = true;
+        break;
+
       case 32: // SPACE
         this._keys.space = true;
         break;
@@ -209,15 +226,31 @@ class BasicCharacterControllerInput {
       case 87: // w
         this._keys.forward = false;
         break;
+      case 38: // arrow up
+        this._keys.forward = false;
+        break;
+
       case 65: // a
         this._keys.left = false;
         break;
+      case 37: // arrow left
+        this._keys.left = false;
+        break;
+
       case 83: // s
         this._keys.backward = false;
         break;
+      case 40: // arrow down
+        this._keys.backward = false;
+        break;
+
       case 68: // d
         this._keys.right = false;
         break;
+      case 39: // arrow right
+        this._keys.right = false;
+        break;
+        
       case 32: // SPACE
         this._keys.space = false;
         break;
@@ -289,7 +322,7 @@ class State {
   Update() {}
 };
 
-
+//dance animation state
 class DanceState extends State {
   constructor(parent) {
     super(parent);
@@ -340,7 +373,7 @@ class DanceState extends State {
   }
 };
 
-
+//walking animation state
 class WalkState extends State {
   constructor(parent) {
     super(parent);
@@ -388,7 +421,7 @@ class WalkState extends State {
   }
 };
 
-
+//run animation state
 class RunState extends State {
   constructor(parent) {
     super(parent);
@@ -436,7 +469,7 @@ class RunState extends State {
   }
 };
 
-
+//idle animation state
 class IdleState extends State {
   constructor(parent) {
     super(parent);
