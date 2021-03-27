@@ -1,7 +1,5 @@
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.118/build/three.module.js';
-
 import {FBXLoader} from 'https://cdn.jsdelivr.net/npm/three@0.118.1/examples/jsm/loaders/FBXLoader.js';
-import {GLTFLoader} from 'https://cdn.jsdelivr.net/npm/three@0.118.1/examples/jsm/loaders/GLTFLoader.js';
 
 /* user movement and anim start */
 class BasicCharacterControllerProxy {
@@ -489,7 +487,7 @@ class ThirdPersonCamera {
 
   _CalculateIdealOffset() {
     //position of camera
-    const idealOffset = new THREE.Vector3(0, 50, -70);
+    const idealOffset = new THREE.Vector3(0, 40, -70);
     idealOffset.applyQuaternion(this._params.target.Rotation);
     idealOffset.add(this._params.target.Position);
     return idealOffset;
