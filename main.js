@@ -2,6 +2,7 @@ import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.118/build/three.mod
 import {FBXLoader} from 'https://cdn.jsdelivr.net/npm/three@0.118.1/examples/jsm/loaders/FBXLoader.js';
 import {GLTFLoader} from 'https://cdn.jsdelivr.net/npm/three@0.118.1/examples/jsm/loaders/GLTFLoader.js';
 
+
 /*******************************user navigation and animation **************************/
 //base class
 class BasicCharacterControllerProxy {
@@ -732,14 +733,34 @@ class ThirdPersonCameraDemo {
 
     /** scene objects start **/
     const area1 = new THREE.Mesh(
-      new THREE.BoxGeometry(100,0,100),
+      new THREE.BoxGeometry(40,0,40),
       new THREE.MeshStandardMaterial({
         color:0x808080
       }));
-      area1.position.set(100,0,10);
+      area1.position.set(50,0,50);
       area1.castShadow = true;
       area1.receiveShadow = true;
       this._scene.add(area1);
+
+    const area2 = new THREE.Mesh(
+      new THREE.BoxGeometry(40,0,40),
+      new THREE.MeshStandardMaterial({
+        color:0x808080
+      }));
+      area2.position.set(-50,0,50);
+      area2.castShadow = true;
+      area2.receiveShadow = true;
+      this._scene.add(area2);
+
+      const area3 = new THREE.Mesh(
+        new THREE.BoxGeometry(40,0,40),
+        new THREE.MeshStandardMaterial({
+          color:0x808080
+        }));
+        area3.position.set(0,0,50);
+        area3.castShadow = true;
+        area2.receiveShadow = true;
+        this._scene.add(area3);
 
     const box = new THREE.Mesh(
       new THREE.BoxGeometry(10,10,10),
@@ -778,6 +799,7 @@ class ThirdPersonCameraDemo {
     loader.load('./resources/gameObjects/Rocket_Ship_01.gltf', (gltf) => {
       gltf.scene.traverse(c => {
         c.castShadow = true;
+        c.position.set(50,0,0);
       });
       this._scene.add(gltf.scene);
     });

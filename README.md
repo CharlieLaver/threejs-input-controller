@@ -1,3 +1,4 @@
 TO DO:
 
--add objects in the world
+-build world structure
+-physics
