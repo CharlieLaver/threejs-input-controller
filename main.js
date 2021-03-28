@@ -1,6 +1,7 @@
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.118/build/three.module.js';
 import {FBXLoader} from 'https://cdn.jsdelivr.net/npm/three@0.118.1/examples/jsm/loaders/FBXLoader.js';
 
+/*******************************user navigation and animation **************************/
 //base class
 class BasicCharacterControllerProxy {
   constructor(animations) {
@@ -618,9 +619,8 @@ class IdleState extends State {
   }
 };
 
-/* user movement and anim end */
+/******************************************* camera *********************************************************/
 
-/*camera start */
 class ThirdPersonCamera {
   constructor(params) {
     this._params = params;
@@ -649,8 +649,6 @@ class ThirdPersonCamera {
     const idealOffset = this._CalculateIdealOffset();
     const idealLookat = this._CalculateIdealLookat();
 
-    // const t = 0.05;
-    // const t = 4.0 * timeElapsed;
     const t = 1.0 - Math.pow(0.001, timeElapsed);
 
     this._currentPosition.lerp(idealOffset, t);
@@ -667,6 +665,7 @@ class ThirdPersonCameraDemo {
     this._Initialize();
   }
 
+  /********************************************* world *****************************************/
   _Initialize() {
     this._threejs = new THREE.WebGLRenderer({
       antialias: true,
@@ -719,7 +718,7 @@ class ThirdPersonCameraDemo {
     texture.encoding = THREE.sRGBEncoding;
     this._scene.background = texture;
     
-    //ground geometry
+    //main ground
     const plane = new THREE.Mesh(
         new THREE.PlaneGeometry(1000, 1000, 10, 10),
         new THREE.MeshStandardMaterial({
@@ -730,6 +729,29 @@ class ThirdPersonCameraDemo {
     plane.rotation.x = -Math.PI / 2;
     this._scene.add(plane);
 
+    /** scene objects start **/
+    const area1 = new THREE.Mesh(
+      new THREE.BoxGeometry(100,0,100),
+      new THREE.MeshStandardMaterial({
+        color:0x808080
+      }));
+      area1.position.set(100,0,10);
+      area1.castShadow = true;
+      area1.receiveShadow = true;
+      this._scene.add(area1);
+
+    const box = new THREE.Mesh(
+      new THREE.BoxGeometry(10,10,10),
+      new THREE.MeshStandardMaterial({
+        color:0x808080
+      }));
+      box.position.set(-20,0,0);
+      box.castShadow = true;
+      box.receiveShadow = true;
+      this._scene.add(box);
+
+      /** scene object end **/
+
     this._mixers = [];
     this._previousRAF = null;
 
@@ -737,6 +759,18 @@ class ThirdPersonCameraDemo {
     this._RAF();
   }
 
+
+
+
+
+
+
+
+
+
+
+
+  
   _LoadAnimatedModel() {
     const params = {
       camera: this._camera,
@@ -814,6 +848,5 @@ _TestLerp(1.0 / 100.0, 1.0 / 50.0);
 _TestLerp(1.0 - Math.pow(0.3, 1.0 / 100.0), 
           1.0 - Math.pow(0.3, 1.0 / 50.0));
 
-/*camera end */
 
 

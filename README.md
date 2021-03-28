@@ -1,4 +1,3 @@
 TO DO:
 
--add gravity
---ad jumping
+-add objects in the world
