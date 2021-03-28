@@ -1,5 +1,6 @@
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.118/build/three.module.js';
 import {FBXLoader} from 'https://cdn.jsdelivr.net/npm/three@0.118.1/examples/jsm/loaders/FBXLoader.js';
+import {GLTFLoader} from 'https://cdn.jsdelivr.net/npm/three@0.118.1/examples/jsm/loaders/GLTFLoader.js';
 
 /*******************************user navigation and animation **************************/
 //base class
@@ -755,20 +756,80 @@ class ThirdPersonCameraDemo {
     this._mixers = [];
     this._previousRAF = null;
 
+    //calls all the loader methods
+    this._LoadModel();
+    this._LoadNpcModel();
     this._LoadAnimatedModel();
     this._RAF();
   }
 
+  //loads gltf models and adds to the scene
+  _LoadModel() {
+    const loader = new GLTFLoader();
+    //needs both the .bin and gltf files
+    loader.load('./resources/gameObjects/Rocket_Ship_01.gltf', (gltf) => {
+      gltf.scene.traverse(c => {
+        c.castShadow = true;
+        c.position.set(100,0,0);
+      });
+      this._scene.add(gltf.scene);
+    });
 
+    loader.load('./resources/gameObjects/Rocket_Ship_01.gltf', (gltf) => {
+      gltf.scene.traverse(c => {
+        c.castShadow = true;
+      });
+      this._scene.add(gltf.scene);
+    });
+  }
 
+  //loads and adds fbx animated npc models to the scene
+  _LoadNpcModel() {
+    const loader = new FBXLoader();
 
+    //model start
+    loader.setPath('./resources/user/');
+    loader.load('user.fbx', (fbx) => {
+      fbx.scale.setScalar(0.1); //sets scale
+      fbx.position.set(10,0,10); //sets position
+      fbx.traverse(c => {
+        c.castShadow = true;
+      });
 
+      const anim = new FBXLoader();
+      anim.setPath('./resources/user/');
+      anim.load('dance.fbx', (anim) => {
+        const m = new THREE.AnimationMixer(fbx);
+        this._mixers.push(m);
+        const idle = m.clipAction(anim.animations[0]);
+        idle.play();
+      });
+      this._scene.add(fbx);
+    });
+    //model end
 
+    //model start
+    loader.setPath('./resources/gameObjects/npc/');
+    loader.load('npc1.fbx', (fbx) => {
+      fbx.scale.setScalar(0.1); //sets scale
+      fbx.position.set(100,0,10); //sets position
+      fbx.traverse(c => {
+        c.castShadow = true;
+      });
 
+      const anim = new FBXLoader();
+      anim.setPath('./resources/gameObjects/npc/');
+      anim.load('npc1Dance.fbx', (anim) => {
+        const m = new THREE.AnimationMixer(fbx);
+        this._mixers.push(m);
+        const idle = m.clipAction(anim.animations[0]);
+        idle.play();
+      });
+      this._scene.add(fbx);
+    });
+    //model end
 
-
-
-
+  }
 
   
   _LoadAnimatedModel() {
@@ -784,6 +845,7 @@ class ThirdPersonCameraDemo {
     });
   }
 
+  
   _OnWindowResize() {
     this._camera.aspect = window.innerWidth / window.innerHeight;
     this._camera.updateProjectionMatrix();
