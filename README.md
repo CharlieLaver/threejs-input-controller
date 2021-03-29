@@ -1,4 +1,3 @@
 TO DO:
 
--build world structure
--physics
+-line 873 LoadGUI display dom elements

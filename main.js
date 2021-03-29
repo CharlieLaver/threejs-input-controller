@@ -1,6 +1,10 @@
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.118/build/three.module.js';
 import {FBXLoader} from 'https://cdn.jsdelivr.net/npm/three@0.118.1/examples/jsm/loaders/FBXLoader.js';
 import {GLTFLoader} from 'https://cdn.jsdelivr.net/npm/three@0.118.1/examples/jsm/loaders/GLTFLoader.js';
+import {
+  CSS3DRenderer,
+  CSS3DObject
+} from 'https://threejs.org/examples/jsm/renderers/CSS3DRenderer.js';
 
 
 /*******************************user navigation and animation **************************/
@@ -78,8 +82,19 @@ class BasicCharacterController {
     });
   }
 
+  //the players position
   get Position() {
-    return this._position;
+    let currentPosition = this._position;
+    //console.log(currentPosition);
+    let currentX = Math.round(currentPosition.x);
+    let currentZ = Math.round(currentPosition.z);
+
+    //if the players pos is in area 1 do something
+    if(currentZ > 30 && currentZ < 70) {
+      console.log('in area 2');
+    }
+
+    return currentPosition;
   }
 
   get Rotation() {
@@ -781,6 +796,7 @@ class ThirdPersonCameraDemo {
     this._LoadModel();
     this._LoadNpcModel();
     this._LoadAnimatedModel();
+    this._LoadGUI();
     this._RAF();
   }
 
@@ -853,6 +869,19 @@ class ThirdPersonCameraDemo {
 
   }
 
+  //loads 2d UI elements
+  _LoadGUI() {
+    // create the plane mesh
+    var material = new THREE.MeshBasicMaterial({ wireframe: true });
+    var geometry = new THREE.PlaneGeometry();
+    var planeMesh= new THREE.Mesh( geometry, material );
+    planeMesh.position.set(-10,10,10); //sets position
+    planeMesh.scale.setScalar(5); //sets scale
+    // add it to the WebGL scene
+    this._scene.add(planeMesh);
+
+  }
+
   
   _LoadAnimatedModel() {
     const params = {
@@ -921,10 +950,11 @@ function _LerpOverFrames(frames, t) {
   return c;
 }
 
+//just for test
 function _TestLerp(t1, t2) {
   const v1 = _LerpOverFrames(100, t1);
   const v2 = _LerpOverFrames(50, t2);
-  console.log(v1.x + ' | ' + v2.x);
+  //console.log(v1.x + ' | ' + v2.x);
 }
 
 _TestLerp(0.01, 0.01);
