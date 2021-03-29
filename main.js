@@ -1,10 +1,6 @@
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.118/build/three.module.js';
 import {FBXLoader} from 'https://cdn.jsdelivr.net/npm/three@0.118.1/examples/jsm/loaders/FBXLoader.js';
 import {GLTFLoader} from 'https://cdn.jsdelivr.net/npm/three@0.118.1/examples/jsm/loaders/GLTFLoader.js';
-import {
-  CSS3DRenderer,
-  CSS3DObject
-} from 'https://threejs.org/examples/jsm/renderers/CSS3DRenderer.js';
 
 
 /*******************************user navigation and animation **************************/
@@ -86,12 +82,15 @@ class BasicCharacterController {
   get Position() {
     let currentPosition = this._position;
     //console.log(currentPosition);
-    let currentX = Math.round(currentPosition.x);
     let currentZ = Math.round(currentPosition.z);
 
     //if the players pos is in area 1 do something
     if(currentZ > 30 && currentZ < 70) {
+      console.log('in area 1');
+    } else if(currentZ > 80 && currentZ < 120) {
       console.log('in area 2');
+    } else if(currentZ > 130 && currentZ < 170) {
+      console.log('in area 3');
     }
 
     return currentPosition;
@@ -682,7 +681,7 @@ class ThirdPersonCameraDemo {
     this._Initialize();
   }
 
-  /********************************************* world *****************************************/
+  /********************************************* world *************************************************/
   _Initialize() {
     this._threejs = new THREE.WebGLRenderer({
       antialias: true,
@@ -730,7 +729,7 @@ class ThirdPersonCameraDemo {
 
     const loader = new THREE.CubeTextureLoader();
     const texture = loader.load([
-        //background pictures here
+        //skybox here
     ]);
     texture.encoding = THREE.sRGBEncoding;
     this._scene.background = texture;
@@ -748,31 +747,31 @@ class ThirdPersonCameraDemo {
 
     /** scene objects start **/
     const area1 = new THREE.Mesh(
-      new THREE.BoxGeometry(40,0,40),
+      new THREE.BoxGeometry(500,0,40),
       new THREE.MeshStandardMaterial({
-        color:0x808080
+        color:0x00FFFF
       }));
-      area1.position.set(50,0,50);
+      area1.position.set(0,0,50);
       area1.castShadow = true;
       area1.receiveShadow = true;
       this._scene.add(area1);
 
     const area2 = new THREE.Mesh(
-      new THREE.BoxGeometry(40,0,40),
+      new THREE.BoxGeometry(500,0,40),
       new THREE.MeshStandardMaterial({
-        color:0x808080
+        color:0xFF7F50
       }));
-      area2.position.set(-50,0,50);
+      area2.position.set(0,0,100);
       area2.castShadow = true;
       area2.receiveShadow = true;
       this._scene.add(area2);
 
       const area3 = new THREE.Mesh(
-        new THREE.BoxGeometry(40,0,40),
+        new THREE.BoxGeometry(500,0,40),
         new THREE.MeshStandardMaterial({
-          color:0x808080
+          color:0xDC143C
         }));
-        area3.position.set(0,0,50);
+        area3.position.set(0,0,150);
         area3.castShadow = true;
         area2.receiveShadow = true;
         this._scene.add(area3);
@@ -869,7 +868,7 @@ class ThirdPersonCameraDemo {
 
   }
 
-  //loads 2d UI elements
+  //loads 2d UI elements /*******************FIX********************/
   _LoadGUI() {
     // create the plane mesh
     var material = new THREE.MeshBasicMaterial({ wireframe: true });
@@ -879,7 +878,6 @@ class ThirdPersonCameraDemo {
     planeMesh.scale.setScalar(5); //sets scale
     // add it to the WebGL scene
     this._scene.add(planeMesh);
-
   }
 
   
