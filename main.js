@@ -648,7 +648,7 @@ class ThirdPersonCamera {
 
   _CalculateIdealOffset() {
     //position of camera
-    const idealOffset = new THREE.Vector3(0, 40, -70);
+    const idealOffset = new THREE.Vector3(0, 70, -70);
     idealOffset.applyQuaternion(this._params.target.Rotation);
     idealOffset.add(this._params.target.Position);
     return idealOffset;
@@ -736,10 +736,11 @@ class ThirdPersonCameraDemo {
     
     //main ground
     const plane = new THREE.Mesh(
-        new THREE.PlaneGeometry(1000, 1000, 10, 10),
+        new THREE.PlaneGeometry(1000, 1000, 0, 0),
         new THREE.MeshStandardMaterial({
             color: 0x2E8B57, //ground colour
           }));
+    plane.position.set(0,0,400);
     plane.castShadow = false;
     plane.receiveShadow = true;
     plane.rotation.x = -Math.PI / 2;
@@ -776,15 +777,27 @@ class ThirdPersonCameraDemo {
         area2.receiveShadow = true;
         this._scene.add(area3);
 
-    const box = new THREE.Mesh(
-      new THREE.BoxGeometry(10,10,10),
-      new THREE.MeshStandardMaterial({
-        color:0x808080
-      }));
-      box.position.set(-20,0,0);
-      box.castShadow = true;
-      box.receiveShadow = true;
-      this._scene.add(box);
+        const area4 = new THREE.Mesh(
+          new THREE.BoxGeometry(500,0,40),
+          new THREE.MeshStandardMaterial({
+            color:0x8A2BE2
+          }));
+          area4.position.set(0,0,200);
+          area4.castShadow = true;
+          area4.receiveShadow = true;
+          this._scene.add(area4);
+
+          const area5 = new THREE.Mesh(
+            new THREE.BoxGeometry(500,0,40),
+            new THREE.MeshStandardMaterial({
+              color:0xD2691E
+            }));
+            area5.position.set(0,0,250);
+            area5.castShadow = true;
+            area5.receiveShadow = true;
+            this._scene.add(area5);
+
+    
 
       /** scene object end **/
 
@@ -803,53 +816,72 @@ class ThirdPersonCameraDemo {
   _LoadModel() {
     const loader = new GLTFLoader();
     //needs both the .bin and gltf files
-    loader.load('./resources/gameObjects/Rocket_Ship_01.gltf', (gltf) => {
+
+    loader.load('./resources/gameObjects/props/keyboard/scene.gltf', (gltf) => {
       gltf.scene.traverse(c => {
         c.castShadow = true;
-        c.position.set(100,0,0);
+        c.position.set(-1,-0.6,3); //sets position
+        c.scale.set(2,2,2); 
       });
       this._scene.add(gltf.scene);
     });
 
-    loader.load('./resources/gameObjects/Rocket_Ship_01.gltf', (gltf) => {
+    loader.load('./resources/gameObjects/props/react/scene.gltf', (gltf) => {
       gltf.scene.traverse(c => {
         c.castShadow = true;
-        c.position.set(50,0,0);
+        c.position.set(5,-5,10); //sets position
+        c.scale.set(1.1,1.1,1.1); 
       });
       this._scene.add(gltf.scene);
     });
+
+    loader.load('./resources/gameObjects/props/arrow/scene.gltf', (gltf) => {
+      gltf.scene.traverse(c => {
+        c.castShadow = true;
+        c.position.set(-10,0,-10); //sets position
+        c.scale.set(1.2,1.2,1.2); 
+        c.rotation.set(0,2,0);
+      });
+      this._scene.add(gltf.scene);
+    });
+
+    //3d text
+
+    loader.load('./resources/gameObjects/text/opensource.gltf', (gltf) => {
+      gltf.scene.traverse(c => {
+        c.castShadow = true;
+        c.position.set(-10,0,20); //sets position
+        c.scale.set(3.3,3.3,3.3); 
+        c.rotation.set(0,2,0);
+      });
+      this._scene.add(gltf.scene);
+    });
+
+    loader.load('./resources/gameObjects/text/projects.gltf', (gltf) => {
+      gltf.scene.traverse(c => {
+        c.castShadow = true;
+        c.position.set(-30,0,15); //sets position
+        c.scale.set(3.3,3.3,3.3); 
+        c.rotation.set(0,2,0);
+      });
+      this._scene.add(gltf.scene);
+    });
+
+
+
   }
+
+  
 
   //loads and adds fbx animated npc models to the scene
   _LoadNpcModel() {
     const loader = new FBXLoader();
 
     //model start
-    loader.setPath('./resources/user/');
-    loader.load('user.fbx', (fbx) => {
-      fbx.scale.setScalar(0.1); //sets scale
-      fbx.position.set(10,0,10); //sets position
-      fbx.traverse(c => {
-        c.castShadow = true;
-      });
-
-      const anim = new FBXLoader();
-      anim.setPath('./resources/user/');
-      anim.load('dance.fbx', (anim) => {
-        const m = new THREE.AnimationMixer(fbx);
-        this._mixers.push(m);
-        const idle = m.clipAction(anim.animations[0]);
-        idle.play();
-      });
-      this._scene.add(fbx);
-    });
-    //model end
-
-    //model start
     loader.setPath('./resources/gameObjects/npc/');
     loader.load('npc1.fbx', (fbx) => {
       fbx.scale.setScalar(0.1); //sets scale
-      fbx.position.set(100,0,10); //sets position
+      fbx.position.set(10,0,10); //sets position
       fbx.traverse(c => {
         c.castShadow = true;
       });
@@ -865,7 +897,6 @@ class ThirdPersonCameraDemo {
       this._scene.add(fbx);
     });
     //model end
-
   }
 
   //loads 2d UI elements /*******************FIX********************/
@@ -962,3 +993,4 @@ _TestLerp(1.0 - Math.pow(0.3, 1.0 / 100.0),
 
 
 
+        
