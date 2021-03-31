@@ -1,4 +1,5 @@
 TO DO:
 
--CSS3D elemenst wrong way round
+-CSS3D elements wrong way round
 -build structure
+-iframe lag
