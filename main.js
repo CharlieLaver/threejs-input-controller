@@ -83,16 +83,6 @@ class BasicCharacterController {
   get Position() {
     let currentPosition = this._position;
     //console.log(currentPosition);
-    let currentZ = Math.round(currentPosition.z);
-
-    //if the players pos is in area 1 do something
-    if(currentZ > 30 && currentZ < 70) {
-      console.log('in area 1');
-    } else if(currentZ > 80 && currentZ < 120) {
-      console.log('in area 2');
-    } else if(currentZ > 130 && currentZ < 170) {
-      console.log('in area 3');
-    }
 
     return currentPosition;
   }
@@ -649,7 +639,7 @@ class ThirdPersonCamera {
 
   _CalculateIdealOffset() {
     //position of camera
-    const idealOffset = new THREE.Vector3(0, 70, -70);
+    const idealOffset = new THREE.Vector3(0, 40, -60);
     idealOffset.applyQuaternion(this._params.target.Rotation);
     idealOffset.add(this._params.target.Position);
     return idealOffset;
@@ -745,77 +735,23 @@ class ThirdPersonCameraDemo {
     
     //main ground
     const plane = new THREE.Mesh(
-        new THREE.PlaneGeometry(1000, 1000, 0, 0),
+        new THREE.PlaneGeometry(1000,1000),
         new THREE.MeshStandardMaterial({
-            color: 0x2E8B57, //ground colour
+            color: 0xFFFAFA, //ground colour
           }));
-    plane.position.set(0,0,400);
+    plane.position.set(0,0,0);
     plane.castShadow = false;
     plane.receiveShadow = true;
     plane.rotation.x = -Math.PI / 2;
     this._scene.add(plane);
 
-    /** scene objects start **/
-    const area1 = new THREE.Mesh(
-      new THREE.BoxGeometry(500,0,40),
-      new THREE.MeshStandardMaterial({
-        color:0x00FFFF
-      }));
-      area1.position.set(0,0,50);
-      area1.castShadow = true;
-      area1.receiveShadow = true;
-      this._scene.add(area1);
-
-    const area2 = new THREE.Mesh(
-      new THREE.BoxGeometry(500,0,40),
-      new THREE.MeshStandardMaterial({
-        color:0xFF7F50
-      }));
-      area2.position.set(0,0,100);
-      area2.castShadow = true;
-      area2.receiveShadow = true;
-      this._scene.add(area2);
-
-      const area3 = new THREE.Mesh(
-        new THREE.BoxGeometry(500,0,40),
-        new THREE.MeshStandardMaterial({
-          color:0xDC143C
-        }));
-        area3.position.set(0,0,150);
-        area3.castShadow = true;
-        area2.receiveShadow = true;
-        this._scene.add(area3);
-
-        const area4 = new THREE.Mesh(
-          new THREE.BoxGeometry(500,0,40),
-          new THREE.MeshStandardMaterial({
-            color:0x8A2BE2
-          }));
-          area4.position.set(0,0,200);
-          area4.castShadow = true;
-          area4.receiveShadow = true;
-          this._scene.add(area4);
-
-          const area5 = new THREE.Mesh(
-            new THREE.BoxGeometry(500,0,40),
-            new THREE.MeshStandardMaterial({
-              color:0xD2691E
-            }));
-            area5.position.set(0,0,250);
-            area5.castShadow = true;
-            area5.receiveShadow = true;
-            this._scene.add(area5);
-
-    
-
-      /** scene object end **/
 
     this._mixers = [];
     this._previousRAF = null;
 
     //calls all the loader methods
-    this._LoadModel();
-    this._LoadNpcModel();
+    //this._LoadModel();
+    //this._LoadNpcModel();
     this._LoadAnimatedModel();
     this._LoadGUI();
     this._RAF();
@@ -825,16 +761,6 @@ class ThirdPersonCameraDemo {
   _LoadModel() {
     const loader = new GLTFLoader();
     //needs both the .bin and gltf files
-
-    loader.load('./resources/gameObjects/props/keyboard/scene.gltf', (gltf) => {
-      gltf.scene.traverse(c => {
-        c.castShadow = true;
-        c.position.set(-1,-0.6,3); //sets position
-        c.scale.set(2,2,2); 
-      });
-      this._scene.add(gltf.scene);
-    });
-
     loader.load('./resources/gameObjects/props/react/scene.gltf', (gltf) => {
       gltf.scene.traverse(c => {
         c.castShadow = true;
@@ -853,29 +779,6 @@ class ThirdPersonCameraDemo {
       });
       this._scene.add(gltf.scene);
     });
-
-    //3d text
-
-    loader.load('./resources/gameObjects/text/opensource.gltf', (gltf) => {
-      gltf.scene.traverse(c => {
-        c.castShadow = true;
-        c.position.set(-10,0,20); //sets position
-        c.scale.set(3.3,3.3,3.3); 
-        c.rotation.set(0,2,0);
-      });
-      this._scene.add(gltf.scene);
-    });
-
-    loader.load('./resources/gameObjects/text/projects.gltf', (gltf) => {
-      gltf.scene.traverse(c => {
-        c.castShadow = true;
-        c.position.set(-30,0,15); //sets position
-        c.scale.set(3.3,3.3,3.3); 
-        c.rotation.set(0,2,0);
-      });
-      this._scene.add(gltf.scene);
-    });
-
 
 
   }
@@ -910,13 +813,26 @@ class ThirdPersonCameraDemo {
 
   //loads 2d UI elements
   _LoadGUI() {
-      let el = document.createElement('div');
-      el.innerHTML = '<h1>Hello CSS3D</h1>' + 
-      '<iframe src=https://github.com/CharlieLaver></iframe>';
-      let obj = new CSS3DObject(el);
-      obj.position.set(100,100,400);
-      obj.rotation.set(0,0,0);
-      this._cssScene.add(obj);
+      let el1 = document.createElement('div');
+      el1.innerHTML = '<iframe src=https://charlielaver.github.io/netflix-in-react-deploy/></iframe>';
+      let obj1 = new CSS3DObject(el1);
+      obj1.position.set(1000,100,1000);
+      obj1.rotation.set(0,1,0);
+      this._cssScene.add(obj1);
+
+      let el2 = document.createElement('div');
+      el2.innerHTML = '<iframe src=https://charlielaver.github.io/youtube-in-react-deploy/></iframe>';
+      let obj2 = new CSS3DObject(el2);
+      obj2.position.set(-500,100,1000);
+      obj2.rotation.set(0,0,0);
+      this._cssScene.add(obj2);
+
+      let el3 = document.createElement('div');
+      el3.innerHTML = '<iframe src=https://charlielaver.com/></iframe>';
+      let obj3 = new CSS3DObject(el3);
+      obj3.position.set(-1000,100,1000);
+      obj3.rotation.set(0,2,0);
+      this._cssScene.add(obj3);
   }
 
   

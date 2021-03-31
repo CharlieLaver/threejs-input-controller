@@ -8,3 +8,16 @@ body {
   margin: 0px;
   overflow: hidden;
 }
+
+iframe {
+  position: relative;
+  display: initial;
+  transform: scale(0.5);
+  z-index: 1;
+  margin: 0 auto;
+  width: 500%;
+  height: 100vh;
+  border: 60px solid #161616;
+  border-width: 30px;
+  border-radius: 20px;
+}
