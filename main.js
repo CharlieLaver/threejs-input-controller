@@ -1,4 +1,5 @@
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.118/build/three.module.js';
+import {CSS3DRenderer,CSS3DObject} from 'https://threejs.org/examples/jsm/renderers/CSS3DRenderer.js';
 import {FBXLoader} from 'https://cdn.jsdelivr.net/npm/three@0.118.1/examples/jsm/loaders/FBXLoader.js';
 import {GLTFLoader} from 'https://cdn.jsdelivr.net/npm/three@0.118.1/examples/jsm/loaders/GLTFLoader.js';
 
@@ -672,6 +673,7 @@ class ThirdPersonCamera {
 
     this._camera.position.copy(this._currentPosition);
     this._camera.lookAt(this._currentLookat);
+
   }
 }
 
@@ -691,8 +693,13 @@ class ThirdPersonCameraDemo {
     this._threejs.shadowMap.type = THREE.PCFSoftShadowMap;
     this._threejs.setPixelRatio(window.devicePixelRatio);
     this._threejs.setSize(window.innerWidth, window.innerHeight);
-
     document.body.appendChild(this._threejs.domElement);
+
+    //css scene initialize start
+    this._cssRender = new CSS3DRenderer();
+    this._cssRender.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(this._cssRender.domElement);
+    //css scene initialize end
 
     window.addEventListener('resize', () => {
       this._OnWindowResize();
@@ -705,7 +712,9 @@ class ThirdPersonCameraDemo {
     this._camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
     this._camera.position.set(25, 10, 25);
 
+    //scenes
     this._scene = new THREE.Scene();
+    this._cssScene = new THREE.Scene();
 
     let light = new THREE.DirectionalLight(0xFFFFFF, 1.0);
     light.position.set(-100, 100, 100);
@@ -899,16 +908,15 @@ class ThirdPersonCameraDemo {
     //model end
   }
 
-  //loads 2d UI elements /*******************FIX********************/
+  //loads 2d UI elements
   _LoadGUI() {
-    // create the plane mesh
-    var material = new THREE.MeshBasicMaterial({ wireframe: true });
-    var geometry = new THREE.PlaneGeometry();
-    var planeMesh= new THREE.Mesh( geometry, material );
-    planeMesh.position.set(-10,10,10); //sets position
-    planeMesh.scale.setScalar(5); //sets scale
-    // add it to the WebGL scene
-    this._scene.add(planeMesh);
+      let el = document.createElement('div');
+      el.innerHTML = '<h1>Hello CSS3D</h1>' + 
+      '<iframe src=https://github.com/CharlieLaver></iframe>';
+      let obj = new CSS3DObject(el);
+      obj.position.set(100,100,400);
+      obj.rotation.set(0,0,0);
+      this._cssScene.add(obj);
   }
 
   
@@ -929,7 +937,13 @@ class ThirdPersonCameraDemo {
   _OnWindowResize() {
     this._camera.aspect = window.innerWidth / window.innerHeight;
     this._camera.updateProjectionMatrix();
+
+    this._camera2.aspect = window.innerWidth / window.innerHeight;
+    this._camera2.updateProjectionMatrix();
+
     this._threejs.setSize(window.innerWidth, window.innerHeight);
+    this._cssRender.setSize(window.innerWidth, window.innerHeight);
+
   }
 
   _RAF() {
@@ -941,6 +955,7 @@ class ThirdPersonCameraDemo {
       this._RAF();
 
       this._threejs.render(this._scene, this._camera);
+      this._cssRender.render(this._cssScene, this._camera);
       this._Step(t - this._previousRAF);
       this._previousRAF = t;
     });
