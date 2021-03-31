@@ -938,9 +938,6 @@ class ThirdPersonCameraDemo {
     this._camera.aspect = window.innerWidth / window.innerHeight;
     this._camera.updateProjectionMatrix();
 
-    this._camera2.aspect = window.innerWidth / window.innerHeight;
-    this._camera2.updateProjectionMatrix();
-
     this._threejs.setSize(window.innerWidth, window.innerHeight);
     this._cssRender.setSize(window.innerWidth, window.innerHeight);
 
