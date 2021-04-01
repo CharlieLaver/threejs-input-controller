@@ -77,12 +77,65 @@ class BasicCharacterController {
       loader.load('walkBack.fbx', (a) => { _OnLoad('walkBack', a); });
       loader.load('runBack.fbx', (a) => { _OnLoad('runBack', a); });
     });
-  }
+  }  
+
 
   //the players position
   get Position() {
+
     let currentPosition = this._position;
-    //console.log(currentPosition);
+    let currZ = Math.round(currentPosition.z);
+    let currX = Math.round(currentPosition.x)
+    
+    let row1 = false;
+    let row2 = false;
+    let row3 = false;
+
+    let col1 = false;
+    let col2 = false;
+    let col3 = false;
+
+    //find what row
+    if(currZ > 25 && currZ < 75) {
+      row1 = true;
+      row2 = false;
+      row3 = false;
+    } else if(currZ > -25 && currZ < 25) {
+      row1 = false;
+      row2 = true;
+      row3 = false;
+    } else if(currZ > -75 && currZ < -25) {
+      row1 = false;
+      row2 = false;
+      row3 = true;
+    }
+
+    //find what col 
+    if(currX > 25 && currX < 75) {
+      col1 = true;
+      col2 = false;
+      col3 = false;
+    } else if(currX > -25 && currX < 25) {
+      col1 = false;
+      col2 = true;
+      col3 = false;
+    } else if(currX > -75 && currX < -25) {
+      col1 = false;
+      col2 = false;
+      col3 = true;
+    }
+
+    //find what square the user is on
+    if(row1 == true && col1 == true) console.log('in zone 1');
+    if(row1 == true && col2 == true) console.log('in zone 2');
+    if(row1 == true && col3 == true) console.log('in zone 3');
+    if(row2 == true && col1 == true) console.log('in zone 4');
+    if(row2 == true && col2 == true) console.log('in zone 5');
+    if(row2 == true && col3 == true) console.log('in zone 6');
+    if(row3 == true && col1 == true) console.log('in zone 7');
+    if(row3 == true && col2 == true) console.log('in zone 8');
+    if(row3 == true && col3 == true) console.log('in zone 9');
+
 
     return currentPosition;
   }
@@ -728,22 +781,113 @@ class ThirdPersonCameraDemo {
 
     const loader = new THREE.CubeTextureLoader();
     const texture = loader.load([
-        //skybox here
+      //skybox here
+
     ]);
     texture.encoding = THREE.sRGBEncoding;
     this._scene.background = texture;
     
-    //main ground
-    const plane = new THREE.Mesh(
-        new THREE.PlaneGeometry(1000,1000),
+    //start
+    const p1 = new THREE.Mesh(
+        new THREE.BoxGeometry(50,50),
         new THREE.MeshStandardMaterial({
             color: 0xFFFAFA, //ground colour
           }));
-    plane.position.set(0,0,0);
-    plane.castShadow = false;
-    plane.receiveShadow = true;
-    plane.rotation.x = -Math.PI / 2;
-    this._scene.add(plane);
+    p1.position.set(0,0,0);
+    p1.castShadow = false;
+    p1.receiveShadow = true;
+    p1.rotation.x = -Math.PI / 2;
+    this._scene.add(p1);
+    
+
+    const p2 = new THREE.Mesh(
+      new THREE.BoxGeometry(50,50),
+      new THREE.MeshStandardMaterial({
+          color: 0x8A2BE2, //ground colour
+        }));
+  p2.position.set(50,0,0);
+  p2.castShadow = false;
+  p2.receiveShadow = true;
+  p2.rotation.x = -Math.PI / 2;
+  this._scene.add(p2);
+
+  const p3 = new THREE.Mesh(
+    new THREE.BoxGeometry(50,50),
+    new THREE.MeshStandardMaterial({
+        color: 0xDC143C, //ground colour
+      }));
+p3.position.set(0,0,50);
+p3.castShadow = false;
+p3.receiveShadow = true;
+p3.rotation.x = -Math.PI / 2;
+this._scene.add(p3);
+
+const p4 = new THREE.Mesh(
+  new THREE.BoxGeometry(50,50),
+  new THREE.MeshStandardMaterial({
+      color: 0x6495ED, //ground colour
+    }));
+p4.position.set(50,0,50);
+p4.castShadow = false;
+p4.receiveShadow = true;
+p4.rotation.x = -Math.PI / 2;
+this._scene.add(p4);
+
+const p5 = new THREE.Mesh(
+  new THREE.BoxGeometry(50,50),
+  new THREE.MeshStandardMaterial({
+      color: 0xFF8C00, //ground colour
+    }));
+p5.position.set(-50,0,50);
+p5.castShadow = false;
+p5.receiveShadow = true;
+p5.rotation.x = -Math.PI / 2;
+this._scene.add(p5);
+
+const p6 = new THREE.Mesh(
+  new THREE.BoxGeometry(50,50),
+  new THREE.MeshStandardMaterial({
+      color: 0x5F9EA0, //ground colour
+    }));
+p6.position.set(-50,0,0);
+p6.castShadow = false;
+p6.receiveShadow = true;
+p6.rotation.x = -Math.PI / 2;
+this._scene.add(p6);
+
+const p7 = new THREE.Mesh(
+  new THREE.BoxGeometry(50,50),
+  new THREE.MeshStandardMaterial({
+      color: 0xDEB887, //ground colour
+    }));
+p7.position.set(-50,0,-50);
+p7.castShadow = false;
+p7.receiveShadow = true;
+p7.rotation.x = -Math.PI / 2;
+this._scene.add(p7);
+
+const p8 = new THREE.Mesh(
+  new THREE.BoxGeometry(50,50),
+  new THREE.MeshStandardMaterial({
+      color: 0xFF7F50, //ground colour
+    }));
+p8.position.set(50,0,-50);
+p8.castShadow = false;
+p8.receiveShadow = true;
+p8.rotation.x = -Math.PI / 2;
+this._scene.add(p8);
+
+const p9 = new THREE.Mesh(
+  new THREE.BoxGeometry(50,50),
+  new THREE.MeshStandardMaterial({
+      color: 0x006400, //ground colour
+    }));
+p9.position.set(0,0,-50);
+p9.castShadow = false;
+p9.receiveShadow = true;
+p9.rotation.x = -Math.PI / 2;
+this._scene.add(p9);
+// end
 
 
     this._mixers = [];
@@ -753,7 +897,7 @@ class ThirdPersonCameraDemo {
     //this._LoadModel();
     //this._LoadNpcModel();
     this._LoadAnimatedModel();
-    this._LoadGUI();
+    //this._LoadGUI();
     this._RAF();
   }
 
@@ -816,23 +960,9 @@ class ThirdPersonCameraDemo {
       let el1 = document.createElement('div');
       el1.innerHTML = '<iframe src=https://charlielaver.github.io/netflix-in-react-deploy/></iframe>';
       let obj1 = new CSS3DObject(el1);
-      obj1.position.set(1000,100,1000);
-      obj1.rotation.set(0,1,0);
+      obj1.position.set(-1000,0,3000);
+      obj1.scale.set(2, 2, 2);
       this._cssScene.add(obj1);
-
-      let el2 = document.createElement('div');
-      el2.innerHTML = '<iframe src=https://charlielaver.github.io/youtube-in-react-deploy/></iframe>';
-      let obj2 = new CSS3DObject(el2);
-      obj2.position.set(-500,100,1000);
-      obj2.rotation.set(0,0,0);
-      this._cssScene.add(obj2);
-
-      let el3 = document.createElement('div');
-      el3.innerHTML = '<iframe src=https://charlielaver.com/></iframe>';
-      let obj3 = new CSS3DObject(el3);
-      obj3.position.set(-1000,100,1000);
-      obj3.rotation.set(0,2,0);
-      this._cssScene.add(obj3);
   }
 
   
