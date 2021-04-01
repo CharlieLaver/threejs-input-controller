@@ -3,9 +3,24 @@ import {CSS3DRenderer,CSS3DObject} from 'https://threejs.org/examples/jsm/render
 import {FBXLoader} from 'https://cdn.jsdelivr.net/npm/three@0.118.1/examples/jsm/loaders/FBXLoader.js';
 import {GLTFLoader} from 'https://cdn.jsdelivr.net/npm/three@0.118.1/examples/jsm/loaders/GLTFLoader.js';
 
+let zoneObj = {
+  zone1: false,
+  zone2: false,
+  zone3: false,
+  zone4: false,
+  zone5: false,
+  zone6: false,
+  zone7: false,
+  zone8: false,
+  zone9: false,
+}
+
+let iframeSrc = 'https://charlielaver.com/';
+let background = 0x7FFFD4;
+
 
 /*******************************user navigation and animation **************************/
-//base class
+
 class BasicCharacterControllerProxy {
   constructor(animations) {
     this._animations = animations;
@@ -16,7 +31,6 @@ class BasicCharacterControllerProxy {
   }
 };
 
-//base class
 class BasicCharacterController {
   constructor(params) {
     this._Init(params);
@@ -125,17 +139,111 @@ class BasicCharacterController {
       col3 = true;
     }
 
-    //find what square the user is on
-    if(row1 == true && col1 == true) console.log('in zone 1');
-    if(row1 == true && col2 == true) console.log('in zone 2');
-    if(row1 == true && col3 == true) console.log('in zone 3');
-    if(row2 == true && col1 == true) console.log('in zone 4');
-    if(row2 == true && col2 == true) console.log('in zone 5');
-    if(row2 == true && col3 == true) console.log('in zone 6');
-    if(row3 == true && col1 == true) console.log('in zone 7');
-    if(row3 == true && col2 == true) console.log('in zone 8');
-    if(row3 == true && col3 == true) console.log('in zone 9');
+    //in zone 1
+    if(row1 == true && col1 == true) {
+      zoneObj.zone1 = true;
+      zoneObj.zone2 = false;
+      zoneObj.zone3 = false;
+      zoneObj.zone4 = false;
+      zoneObj.zone5 = false;
+      zoneObj.zone6 = false;
+      zoneObj.zone7 = false;
+      zoneObj.zone8 = false;
+      zoneObj.zone9 = false;
+    } //in zone 2
+    if(row1 == true && col2 == true) {
+      zoneObj.zone1 = false;
+      zoneObj.zone2 = true;
+      zoneObj.zone3 = false;
+      zoneObj.zone4 = false;
+      zoneObj.zone5 = false;
+      zoneObj.zone6 = false;
+      zoneObj.zone7 = false;
+      zoneObj.zone8 = false;
+      zoneObj.zone9 = false;
+    } //in zone 3
+    if(row1 == true && col3 == true) {
+      zoneObj.zone1 = false;
+      zoneObj.zone2 = false;
+      zoneObj.zone3 = true;
+      zoneObj.zone4 = false;
+      zoneObj.zone5 = false;
+      zoneObj.zone6 = false;
+      zoneObj.zone7 = false;
+      zoneObj.zone8 = false;
+      zoneObj.zone9 = false;
+    } //in zone 4
+    if(row2 == true && col1 == true) {
+      zoneObj.zone1 = false;
+      zoneObj.zone2 = false;
+      zoneObj.zone3 = false;
+      zoneObj.zone4 = true;
+      zoneObj.zone5 = false;
+      zoneObj.zone6 = false;
+      zoneObj.zone7 = false;
+      zoneObj.zone8 = false;
+      zoneObj.zone9 = false;
+    } //in zone 5
+    if(row2 == true && col2 == true) {
+      zoneObj.zone1 = false;
+      zoneObj.zone2 = false;
+      zoneObj.zone3 = false;
+      zoneObj.zone4 = false;
+      zoneObj.zone5 = true;
+      zoneObj.zone6 = false;
+      zoneObj.zone7 = false;
+      zoneObj.zone8 = false;
+      zoneObj.zone9 = false;
+    } //in zone 6
+    if(row2 == true && col3 == true) {
+      zoneObj.zone1 = false;
+      zoneObj.zone2 = false;
+      zoneObj.zone3 = false;
+      zoneObj.zone4 = false;
+      zoneObj.zone5 = false;
+      zoneObj.zone6 = true;
+      zoneObj.zone7 = false;
+      zoneObj.zone8 = false;
+      zoneObj.zone9 = false;
+    } //in zone 7
+    if(row3 == true && col1 == true) {
+      zoneObj.zone1 = false;
+      zoneObj.zone2 = false;
+      zoneObj.zone3 = false;
+      zoneObj.zone4 = false;
+      zoneObj.zone5 = false;
+      zoneObj.zone6 = false;
+      zoneObj.zone7 = true;
+      zoneObj.zone8 = false;
+      zoneObj.zone9 = false;
+    } //in zone 8
+    if(row3 == true && col2 == true) {
+      zoneObj.zone1 = false;
+      zoneObj.zone2 = false;
+      zoneObj.zone3 = false;
+      zoneObj.zone4 = false;
+      zoneObj.zone5 = false;
+      zoneObj.zone6 = false;
+      zoneObj.zone7 = false;
+      zoneObj.zone8 = true;
+      zoneObj.zone9 = false;
+    } //in zone 9
+    if(row3 == true && col3 == true) {
+      zoneObj.zone1 = false;
+      zoneObj.zone2 = false;
+      zoneObj.zone3 = false;
+      zoneObj.zone4 = false;
+      zoneObj.zone5 = false;
+      zoneObj.zone6 = false;
+      zoneObj.zone7 = false;
+      zoneObj.zone8 = false;
+      zoneObj.zone9 = true;
+    }
 
+    if(zoneObj.zone1 == true) {
+      background = 0xA52A2A;
+      console.log('in zone1'); 
+    }
 
     return currentPosition;
   }
@@ -726,7 +834,7 @@ class ThirdPersonCameraDemo {
     this._Initialize();
   }
 
-  /********************************************* world *************************************************/
+  /********************************************* render *************************************************/
   _Initialize() {
     this._threejs = new THREE.WebGLRenderer({
       antialias: true,
@@ -759,6 +867,10 @@ class ThirdPersonCameraDemo {
     this._scene = new THREE.Scene();
     this._cssScene = new THREE.Scene();
 
+    //scene background colour
+    this._scene.background = new THREE.Color( background );
+
+
     let light = new THREE.DirectionalLight(0xFFFFFF, 1.0);
     light.position.set(-100, 100, 100);
     light.target.position.set(0, 0, 0);
@@ -779,186 +891,130 @@ class ThirdPersonCameraDemo {
     light = new THREE.AmbientLight(0xFFFFFF, 0.25);
     this._scene.add(light);
 
-    const loader = new THREE.CubeTextureLoader();
-    const texture = loader.load([
-      //skybox here
-
-    ]);
-    texture.encoding = THREE.sRGBEncoding;
-    this._scene.background = texture;
     
-    //start
-    const p1 = new THREE.Mesh(
+    //zone1
+    const z1 = new THREE.Mesh(
         new THREE.BoxGeometry(50,50),
         new THREE.MeshStandardMaterial({
-            color: 0xFFFAFA, //ground colour
+            color: 0x0000FF, //ground colour
           }));
-    p1.position.set(0,0,0);
-    p1.castShadow = false;
-    p1.receiveShadow = true;
-    p1.rotation.x = -Math.PI / 2;
-    this._scene.add(p1);
-    
+    z1.position.set(50,0,50);
+    z1.castShadow = false;
+    z1.receiveShadow = true;
+    z1.rotation.x = -Math.PI / 2;
+    this._scene.add(z1);
 
-    const p2 = new THREE.Mesh(
+    //zone2
+    const z2 = new THREE.Mesh(
       new THREE.BoxGeometry(50,50),
       new THREE.MeshStandardMaterial({
-          color: 0x8A2BE2, //ground colour
+          color: 0x7FFF00, //ground colour
         }));
-  p2.position.set(50,0,0);
-  p2.castShadow = false;
-  p2.receiveShadow = true;
-  p2.rotation.x = -Math.PI / 2;
-  this._scene.add(p2);
+  z2.position.set(0,0,50);
+  z2.castShadow = false;
+  z2.receiveShadow = true;
+  z2.rotation.x = -Math.PI / 2;
+  this._scene.add(z2);
 
-  const p3 = new THREE.Mesh(
+  //zone3
+  const z3 = new THREE.Mesh(
     new THREE.BoxGeometry(50,50),
     new THREE.MeshStandardMaterial({
         color: 0xDC143C, //ground colour
       }));
-p3.position.set(0,0,50);
-p3.castShadow = false;
-p3.receiveShadow = true;
-p3.rotation.x = -Math.PI / 2;
-this._scene.add(p3);
+z3.position.set(-50,0,50);
+z3.castShadow = false;
+z3.receiveShadow = true;
+z3.rotation.x = -Math.PI / 2;
+this._scene.add(z3);
 
-const p4 = new THREE.Mesh(
-  new THREE.BoxGeometry(50,50),
-  new THREE.MeshStandardMaterial({
-      color: 0x6495ED, //ground colour
-    }));
-p4.position.set(50,0,50);
-p4.castShadow = false;
-p4.receiveShadow = true;
-p4.rotation.x = -Math.PI / 2;
-this._scene.add(p4);
-
-const p5 = new THREE.Mesh(
-  new THREE.BoxGeometry(50,50),
-  new THREE.MeshStandardMaterial({
-      color: 0xFF8C00, //ground colour
-    }));
-p5.position.set(-50,0,50);
-p5.castShadow = false;
-p5.receiveShadow = true;
-p5.rotation.x = -Math.PI / 2;
-this._scene.add(p5);
-
-const p6 = new THREE.Mesh(
-  new THREE.BoxGeometry(50,50),
-  new THREE.MeshStandardMaterial({
-      color: 0x5F9EA0, //ground colour
-    }));
-p6.position.set(-50,0,0);
-p6.castShadow = false;
-p6.receiveShadow = true;
-p6.rotation.x = -Math.PI / 2;
-this._scene.add(p6);
-
-const p7 = new THREE.Mesh(
-  new THREE.BoxGeometry(50,50),
-  new THREE.MeshStandardMaterial({
-      color: 0xDEB887, //ground colour
-    }));
-p7.position.set(-50,0,-50);
-p7.castShadow = false;
-p7.receiveShadow = true;
-p7.rotation.x = -Math.PI / 2;
-this._scene.add(p7);
-
-const p8 = new THREE.Mesh(
+//zone4
+const z4 = new THREE.Mesh(
   new THREE.BoxGeometry(50,50),
   new THREE.MeshStandardMaterial({
       color: 0xFF7F50, //ground colour
     }));
-p8.position.set(50,0,-50);
-p8.castShadow = false;
-p8.receiveShadow = true;
-p8.rotation.x = -Math.PI / 2;
-this._scene.add(p8);
+z4.position.set(50,0,0);
+z4.castShadow = false;
+z4.receiveShadow = true;
+z4.rotation.x = -Math.PI / 2;
+this._scene.add(z4);
 
-const p9 = new THREE.Mesh(
+//zone5
+const z5 = new THREE.Mesh(
   new THREE.BoxGeometry(50,50),
   new THREE.MeshStandardMaterial({
-      color: 0x006400, //ground colour
+      color: 0x5F9EA0, //ground colour
     }));
-p9.position.set(0,0,-50);
-p9.castShadow = false;
-p9.receiveShadow = true;
-p9.rotation.x = -Math.PI / 2;
-this._scene.add(p9);
-// end
+z5.position.set(0,0,0);
+z5.castShadow = false;
+z5.receiveShadow = true;
+z5.rotation.x = -Math.PI / 2;
+this._scene.add(z5);
 
+//zone6
+const z6 = new THREE.Mesh(
+  new THREE.BoxGeometry(50,50),
+  new THREE.MeshStandardMaterial({
+      color: 0xD2691E, //ground colour
+    }));
+z6.position.set(-50,0,0);
+z6.castShadow = false;
+z6.receiveShadow = true;
+z6.rotation.x = -Math.PI / 2;
+this._scene.add(z6);
 
+//zone7
+const z7 = new THREE.Mesh(
+  new THREE.BoxGeometry(50,50),
+  new THREE.MeshStandardMaterial({
+      color: 0x8B008B, //ground colour
+    }));
+z7.position.set(50,0,-50);
+z7.castShadow = false;
+z7.receiveShadow = true;
+z7.rotation.x = -Math.PI / 2;
+this._scene.add(z7);
+
+//zone8
+const z8 = new THREE.Mesh(
+  new THREE.BoxGeometry(50,50),
+  new THREE.MeshStandardMaterial({
+      color: 0xFF8C00, //ground colour
+    }));
+z8.position.set(0,0,-50);
+z8.castShadow = false;
+z8.receiveShadow = true;
+z8.rotation.x = -Math.PI / 2;
+this._scene.add(z8);
+
+//zone9
+const z9 = new THREE.Mesh(
+  new THREE.BoxGeometry(50,50),
+  new THREE.MeshStandardMaterial({
+      color: 0x00FA9A, //ground colour
+    }));
+z9.position.set(-50,0,-50);
+z9.castShadow = false;
+z9.receiveShadow = true;
+z9.rotation.x = -Math.PI / 2;
+this._scene.add(z9);
+  
+    
     this._mixers = [];
     this._previousRAF = null;
 
     //calls all the loader methods
-    //this._LoadModel();
-    //this._LoadNpcModel();
     this._LoadAnimatedModel();
-    //this._LoadGUI();
+    this._LoadGUI();
     this._RAF();
   }
 
-  //loads gltf models and adds to the scene
-  _LoadModel() {
-    const loader = new GLTFLoader();
-    //needs both the .bin and gltf files
-    loader.load('./resources/gameObjects/props/react/scene.gltf', (gltf) => {
-      gltf.scene.traverse(c => {
-        c.castShadow = true;
-        c.position.set(5,-5,10); //sets position
-        c.scale.set(1.1,1.1,1.1); 
-      });
-      this._scene.add(gltf.scene);
-    });
-
-    loader.load('./resources/gameObjects/props/arrow/scene.gltf', (gltf) => {
-      gltf.scene.traverse(c => {
-        c.castShadow = true;
-        c.position.set(-10,0,-10); //sets position
-        c.scale.set(1.2,1.2,1.2); 
-        c.rotation.set(0,2,0);
-      });
-      this._scene.add(gltf.scene);
-    });
-
-
-  }
-
   
-
-  //loads and adds fbx animated npc models to the scene
-  _LoadNpcModel() {
-    const loader = new FBXLoader();
-
-    //model start
-    loader.setPath('./resources/gameObjects/npc/');
-    loader.load('npc1.fbx', (fbx) => {
-      fbx.scale.setScalar(0.1); //sets scale
-      fbx.position.set(10,0,10); //sets position
-      fbx.traverse(c => {
-        c.castShadow = true;
-      });
-
-      const anim = new FBXLoader();
-      anim.setPath('./resources/gameObjects/npc/');
-      anim.load('npc1Dance.fbx', (anim) => {
-        const m = new THREE.AnimationMixer(fbx);
-        this._mixers.push(m);
-        const idle = m.clipAction(anim.animations[0]);
-        idle.play();
-      });
-      this._scene.add(fbx);
-    });
-    //model end
-  }
-
   //loads 2d UI elements
   _LoadGUI() {
       let el1 = document.createElement('div');
-      el1.innerHTML = '<iframe src=https://charlielaver.github.io/netflix-in-react-deploy/></iframe>';
+      el1.innerHTML = `<iframe src=${iframeSrc}></iframe>`;
       let obj1 = new CSS3DObject(el1);
       obj1.position.set(-1000,0,3000);
       obj1.scale.set(2, 2, 2);
@@ -996,7 +1052,7 @@ this._scene.add(p9);
       }
 
       this._RAF();
-
+      //render
       this._threejs.render(this._scene, this._camera);
       this._cssRender.render(this._cssScene, this._camera);
       this._Step(t - this._previousRAF);
@@ -1049,6 +1105,3 @@ _TestLerp(1.0 / 100.0, 1.0 / 50.0);
 _TestLerp(1.0 - Math.pow(0.3, 1.0 / 100.0), 
           1.0 - Math.pow(0.3, 1.0 / 50.0));
 
-
-
-        
