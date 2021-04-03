@@ -2,6 +2,7 @@ import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.118/build/three.mod
 import {CSS3DRenderer,CSS3DObject} from 'https://threejs.org/examples/jsm/renderers/CSS3DRenderer.js';
 import {FBXLoader} from 'https://cdn.jsdelivr.net/npm/three@0.118.1/examples/jsm/loaders/FBXLoader.js';
 import {GLTFLoader} from 'https://cdn.jsdelivr.net/npm/three@0.118.1/examples/jsm/loaders/GLTFLoader.js';
+import { CanvasUI } from './resources/canvasUI/CanvasUI.js';
 
 let zoneObj = {
   zone1: false,
@@ -14,9 +15,6 @@ let zoneObj = {
   zone8: false,
   zone9: false,
 }
-
-let iframeSrc = 'https://charlielaver.com/';
-let background = 0x7FFFD4;
 
 
 /*******************************user navigation and animation **************************/
@@ -241,7 +239,6 @@ class BasicCharacterController {
     }
 
     if(zoneObj.zone1 == true) {
-      background = 0xA52A2A;
       console.log('in zone1'); 
     }
 
@@ -846,12 +843,7 @@ class ThirdPersonCameraDemo {
     this._threejs.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(this._threejs.domElement);
 
-    //css scene initialize start
-    this._cssRender = new CSS3DRenderer();
-    this._cssRender.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(this._cssRender.domElement);
-    //css scene initialize end
-
+   
     window.addEventListener('resize', () => {
       this._OnWindowResize();
     }, false);
@@ -865,10 +857,10 @@ class ThirdPersonCameraDemo {
 
     //scenes
     this._scene = new THREE.Scene();
-    this._cssScene = new THREE.Scene();
+    this._UIScene = new THREE.Scene();
 
     //scene background colour
-    this._scene.background = new THREE.Color( background );
+    this._scene.background = new THREE.Color( '#1E90FF' );
 
 
     let light = new THREE.DirectionalLight(0xFFFFFF, 1.0);
@@ -890,13 +882,12 @@ class ThirdPersonCameraDemo {
 
     light = new THREE.AmbientLight(0xFFFFFF, 0.25);
     this._scene.add(light);
-
     
     //zone1
     const z1 = new THREE.Mesh(
         new THREE.BoxGeometry(50,50),
         new THREE.MeshStandardMaterial({
-            color: 0x0000FF, //ground colour
+            color: 0x03fc49, //ground colour
           }));
     z1.position.set(50,0,50);
     z1.castShadow = false;
@@ -999,7 +990,7 @@ z9.castShadow = false;
 z9.receiveShadow = true;
 z9.rotation.x = -Math.PI / 2;
 this._scene.add(z9);
-  
+
     
     this._mixers = [];
     this._previousRAF = null;
@@ -1011,14 +1002,14 @@ this._scene.add(z9);
   }
 
   
-  //loads 2d UI elements
+  //loads 2d UI elements ************fix
   _LoadGUI() {
-      let el1 = document.createElement('div');
-      el1.innerHTML = `<iframe src=${iframeSrc}></iframe>`;
-      let obj1 = new CSS3DObject(el1);
-      obj1.position.set(-1000,0,3000);
-      obj1.scale.set(2, 2, 2);
-      this._cssScene.add(obj1);
+    const ui = new CanvasUI(  );
+    ui.mesh.position.set(0, -0.5, -1);
+    ui.updateElement("body", "Hello World" );
+    ui.update();
+    this._scene.add(ui.mesh);
+    
   }
 
   
@@ -1039,10 +1030,8 @@ this._scene.add(z9);
   _OnWindowResize() {
     this._camera.aspect = window.innerWidth / window.innerHeight;
     this._camera.updateProjectionMatrix();
-
+    
     this._threejs.setSize(window.innerWidth, window.innerHeight);
-    this._cssRender.setSize(window.innerWidth, window.innerHeight);
-
   }
 
   _RAF() {
@@ -1053,8 +1042,7 @@ this._scene.add(z9);
 
       this._RAF();
       //render
-      this._threejs.render(this._scene, this._camera);
-      this._cssRender.render(this._cssScene, this._camera);
+     this._threejs.render(this._scene, this._camera);
       this._Step(t - this._previousRAF);
       this._previousRAF = t;
     });
@@ -1104,4 +1092,6 @@ _TestLerp(0.01, 0.01);
 _TestLerp(1.0 / 100.0, 1.0 / 50.0);
 _TestLerp(1.0 - Math.pow(0.3, 1.0 / 100.0), 
           1.0 - Math.pow(0.3, 1.0 / 50.0));
+
+
 
