@@ -1005,10 +1005,12 @@ this._scene.add(z9);
   //loads 2d UI elements ************fix
   _LoadGUI() {
     const ui = new CanvasUI(  );
-    ui.mesh.position.set(0, -0.5, -1);
-    ui.updateElement("body", "Hello World" );
-    ui.update();
-    this._scene.add(ui.mesh);
+	ui.mesh.position.set(0, 0, 0);
+	ui.mesh.scale.set(50,50,50);
+	ui.mesh.rotation.set(0,1,0);
+	ui.updateElement("body", "Hello World" );
+	ui.update();
+	this._scene.add(ui.mesh);
     
   }
 
