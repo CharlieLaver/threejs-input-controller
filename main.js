@@ -1,5 +1,4 @@
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.118/build/three.module.js';
-import {CSS3DRenderer,CSS3DObject} from 'https://threejs.org/examples/jsm/renderers/CSS3DRenderer.js';
 import {FBXLoader} from 'https://cdn.jsdelivr.net/npm/three@0.118.1/examples/jsm/loaders/FBXLoader.js';
 import {GLTFLoader} from 'https://cdn.jsdelivr.net/npm/three@0.118.1/examples/jsm/loaders/GLTFLoader.js';
 import { CanvasUI } from './resources/canvasUI/CanvasUI.js';
@@ -99,148 +98,6 @@ class BasicCharacterController {
     let currZ = Math.round(currentPosition.z);
     let currX = Math.round(currentPosition.x)
     
-    let row1 = false;
-    let row2 = false;
-    let row3 = false;
-
-    let col1 = false;
-    let col2 = false;
-    let col3 = false;
-
-    //find what row
-    if(currZ > 25 && currZ < 75) {
-      row1 = true;
-      row2 = false;
-      row3 = false;
-    } else if(currZ > -25 && currZ < 25) {
-      row1 = false;
-      row2 = true;
-      row3 = false;
-    } else if(currZ > -75 && currZ < -25) {
-      row1 = false;
-      row2 = false;
-      row3 = true;
-    }
-
-    //find what col 
-    if(currX > 25 && currX < 75) {
-      col1 = true;
-      col2 = false;
-      col3 = false;
-    } else if(currX > -25 && currX < 25) {
-      col1 = false;
-      col2 = true;
-      col3 = false;
-    } else if(currX > -75 && currX < -25) {
-      col1 = false;
-      col2 = false;
-      col3 = true;
-    }
-
-    //in zone 1
-    if(row1 == true && col1 == true) {
-      zoneObj.zone1 = true;
-      zoneObj.zone2 = false;
-      zoneObj.zone3 = false;
-      zoneObj.zone4 = false;
-      zoneObj.zone5 = false;
-      zoneObj.zone6 = false;
-      zoneObj.zone7 = false;
-      zoneObj.zone8 = false;
-      zoneObj.zone9 = false;
-    } //in zone 2
-    if(row1 == true && col2 == true) {
-      zoneObj.zone1 = false;
-      zoneObj.zone2 = true;
-      zoneObj.zone3 = false;
-      zoneObj.zone4 = false;
-      zoneObj.zone5 = false;
-      zoneObj.zone6 = false;
-      zoneObj.zone7 = false;
-      zoneObj.zone8 = false;
-      zoneObj.zone9 = false;
-    } //in zone 3
-    if(row1 == true && col3 == true) {
-      zoneObj.zone1 = false;
-      zoneObj.zone2 = false;
-      zoneObj.zone3 = true;
-      zoneObj.zone4 = false;
-      zoneObj.zone5 = false;
-      zoneObj.zone6 = false;
-      zoneObj.zone7 = false;
-      zoneObj.zone8 = false;
-      zoneObj.zone9 = false;
-    } //in zone 4
-    if(row2 == true && col1 == true) {
-      zoneObj.zone1 = false;
-      zoneObj.zone2 = false;
-      zoneObj.zone3 = false;
-      zoneObj.zone4 = true;
-      zoneObj.zone5 = false;
-      zoneObj.zone6 = false;
-      zoneObj.zone7 = false;
-      zoneObj.zone8 = false;
-      zoneObj.zone9 = false;
-    } //in zone 5
-    if(row2 == true && col2 == true) {
-      zoneObj.zone1 = false;
-      zoneObj.zone2 = false;
-      zoneObj.zone3 = false;
-      zoneObj.zone4 = false;
-      zoneObj.zone5 = true;
-      zoneObj.zone6 = false;
-      zoneObj.zone7 = false;
-      zoneObj.zone8 = false;
-      zoneObj.zone9 = false;
-    } //in zone 6
-    if(row2 == true && col3 == true) {
-      zoneObj.zone1 = false;
-      zoneObj.zone2 = false;
-      zoneObj.zone3 = false;
-      zoneObj.zone4 = false;
-      zoneObj.zone5 = false;
-      zoneObj.zone6 = true;
-      zoneObj.zone7 = false;
-      zoneObj.zone8 = false;
-      zoneObj.zone9 = false;
-    } //in zone 7
-    if(row3 == true && col1 == true) {
-      zoneObj.zone1 = false;
-      zoneObj.zone2 = false;
-      zoneObj.zone3 = false;
-      zoneObj.zone4 = false;
-      zoneObj.zone5 = false;
-      zoneObj.zone6 = false;
-      zoneObj.zone7 = true;
-      zoneObj.zone8 = false;
-      zoneObj.zone9 = false;
-    } //in zone 8
-    if(row3 == true && col2 == true) {
-      zoneObj.zone1 = false;
-      zoneObj.zone2 = false;
-      zoneObj.zone3 = false;
-      zoneObj.zone4 = false;
-      zoneObj.zone5 = false;
-      zoneObj.zone6 = false;
-      zoneObj.zone7 = false;
-      zoneObj.zone8 = true;
-      zoneObj.zone9 = false;
-    } //in zone 9
-    if(row3 == true && col3 == true) {
-      zoneObj.zone1 = false;
-      zoneObj.zone2 = false;
-      zoneObj.zone3 = false;
-      zoneObj.zone4 = false;
-      zoneObj.zone5 = false;
-      zoneObj.zone6 = false;
-      zoneObj.zone7 = false;
-      zoneObj.zone8 = false;
-      zoneObj.zone9 = true;
-    }
-
-    if(zoneObj.zone1 == true) {
-      console.log('in zone1'); 
-    }
 
     return currentPosition;
   }
@@ -883,113 +740,17 @@ class ThirdPersonCameraDemo {
     light = new THREE.AmbientLight(0xFFFFFF, 0.25);
     this._scene.add(light);
     
-    //zone1
-    const z1 = new THREE.Mesh(
-        new THREE.BoxGeometry(50,50),
+    //ground
+    const ground = new THREE.Mesh(
+        new THREE.PlaneGeometry(1000,1000),
         new THREE.MeshStandardMaterial({
-            color: 0x03fc49, //ground colour
+            color: 0xfff, //ground colour
           }));
-    z1.position.set(50,0,50);
-    z1.castShadow = false;
-    z1.receiveShadow = true;
-    z1.rotation.x = -Math.PI / 2;
-    this._scene.add(z1);
-
-    //zone2
-    const z2 = new THREE.Mesh(
-      new THREE.BoxGeometry(50,50),
-      new THREE.MeshStandardMaterial({
-          color: 0x7FFF00, //ground colour
-        }));
-  z2.position.set(0,0,50);
-  z2.castShadow = false;
-  z2.receiveShadow = true;
-  z2.rotation.x = -Math.PI / 2;
-  this._scene.add(z2);
-
-  //zone3
-  const z3 = new THREE.Mesh(
-    new THREE.BoxGeometry(50,50),
-    new THREE.MeshStandardMaterial({
-        color: 0xDC143C, //ground colour
-      }));
-z3.position.set(-50,0,50);
-z3.castShadow = false;
-z3.receiveShadow = true;
-z3.rotation.x = -Math.PI / 2;
-this._scene.add(z3);
-
-//zone4
-const z4 = new THREE.Mesh(
-  new THREE.BoxGeometry(50,50),
-  new THREE.MeshStandardMaterial({
-      color: 0xFF7F50, //ground colour
-    }));
-z4.position.set(50,0,0);
-z4.castShadow = false;
-z4.receiveShadow = true;
-z4.rotation.x = -Math.PI / 2;
-this._scene.add(z4);
-
-//zone5
-const z5 = new THREE.Mesh(
-  new THREE.BoxGeometry(50,50),
-  new THREE.MeshStandardMaterial({
-      color: 0x5F9EA0, //ground colour
-    }));
-z5.position.set(0,0,0);
-z5.castShadow = false;
-z5.receiveShadow = true;
-z5.rotation.x = -Math.PI / 2;
-this._scene.add(z5);
-
-//zone6
-const z6 = new THREE.Mesh(
-  new THREE.BoxGeometry(50,50),
-  new THREE.MeshStandardMaterial({
-      color: 0xD2691E, //ground colour
-    }));
-z6.position.set(-50,0,0);
-z6.castShadow = false;
-z6.receiveShadow = true;
-z6.rotation.x = -Math.PI / 2;
-this._scene.add(z6);
-
-//zone7
-const z7 = new THREE.Mesh(
-  new THREE.BoxGeometry(50,50),
-  new THREE.MeshStandardMaterial({
-      color: 0x8B008B, //ground colour
-    }));
-z7.position.set(50,0,-50);
-z7.castShadow = false;
-z7.receiveShadow = true;
-z7.rotation.x = -Math.PI / 2;
-this._scene.add(z7);
-
-//zone8
-const z8 = new THREE.Mesh(
-  new THREE.BoxGeometry(50,50),
-  new THREE.MeshStandardMaterial({
-      color: 0xFF8C00, //ground colour
-    }));
-z8.position.set(0,0,-50);
-z8.castShadow = false;
-z8.receiveShadow = true;
-z8.rotation.x = -Math.PI / 2;
-this._scene.add(z8);
-
-//zone9
-const z9 = new THREE.Mesh(
-  new THREE.BoxGeometry(50,50),
-  new THREE.MeshStandardMaterial({
-      color: 0x00FA9A, //ground colour
-    }));
-z9.position.set(-50,0,-50);
-z9.castShadow = false;
-z9.receiveShadow = true;
-z9.rotation.x = -Math.PI / 2;
-this._scene.add(z9);
+    ground.position.set(0,0,0);
+    ground.castShadow = false;
+    ground.receiveShadow = true;
+    ground.rotation.x = -Math.PI / 2;
+    this._scene.add(ground);
 
     
     this._mixers = [];
@@ -1002,16 +763,252 @@ this._scene.add(z9);
   }
 
   
-  //loads 2d UI elements ************fix
+  //loads 2d UI elements
   _LoadGUI() {
-    const ui = new CanvasUI(  );
-	ui.mesh.position.set(0, 0, 0);
-	ui.mesh.scale.set(50,50,50);
-	ui.mesh.rotation.set(0,1,0);
-	ui.updateElement("body", "Hello World" );
+
+    //proj 1
+  const ui = new CanvasUI(  );
+	ui.mesh.position.set(0, 20, -200);
+	ui.mesh.scale.set(90,90,90);
+	ui.mesh.rotation.set(0,0,0);
+	ui.updateElement("body", "Project" );
 	ui.update();
 	this._scene.add(ui.mesh);
-    
+
+  const btn = new THREE.Mesh(
+    new THREE.BoxGeometry(40,40),
+    new THREE.MeshStandardMaterial({
+        color: 0xDC143C, //ground colour
+      }));
+btn.position.set(0,0,-175);
+btn.castShadow = false;
+btn.receiveShadow = true;
+btn.rotation.x = -Math.PI / 2;
+this._scene.add(btn);
+
+
+  //proj 2
+  const ui2 = new CanvasUI(  );
+	ui2.mesh.position.set(100, 20, -150);
+	ui2.mesh.scale.set(90,90,90);
+	ui2.mesh.rotation.set(0,0,0);
+	ui2.updateElement("body", "Project" );
+	ui2.update();
+	this._scene.add(ui2.mesh);
+
+  const btn2 = new THREE.Mesh(
+    new THREE.BoxGeometry(40,40),
+    new THREE.MeshStandardMaterial({
+        color: 0xDC143C, //ground colour
+      }));
+btn2.position.set(100,0,-125);
+btn2.castShadow = false;
+btn2.receiveShadow = true;
+btn2.rotation.x = -Math.PI / 2;
+this._scene.add(btn2);
+
+
+  //proj 3
+  const ui3 = new CanvasUI(  );
+	ui3.mesh.position.set(-100, 20, -150);
+	ui3.mesh.scale.set(90,90,90);
+	ui3.mesh.rotation.set(0,0,0);
+	ui3.updateElement("body", "Project" );
+	ui3.update();
+	this._scene.add(ui3.mesh);
+
+  const btn3 = new THREE.Mesh(
+    new THREE.BoxGeometry(40,40),
+    new THREE.MeshStandardMaterial({
+        color: 0xDC143C, //ground colour
+      }));
+btn3.position.set(-100,0,-125);
+btn3.castShadow = false;
+btn3.receiveShadow = true;
+btn3.rotation.x = -Math.PI / 2;
+this._scene.add(btn3);
+
+  //proj 4
+  const ui4 = new CanvasUI(  );
+	ui4.mesh.position.set(0, 20, 200);
+	ui4.mesh.scale.set(90,90,90);
+	ui4.mesh.rotation.set(0,22,0);
+	ui4.updateElement("body", "Project" );
+	ui4.update();
+	this._scene.add(ui4.mesh);
+
+  const btn4 = new THREE.Mesh(
+    new THREE.BoxGeometry(40,40),
+    new THREE.MeshStandardMaterial({
+        color: 0xDC143C, //ground colour
+      }));
+btn4.position.set(0,0,175);
+btn4.castShadow = false;
+btn4.receiveShadow = true;
+btn4.rotation.x = -Math.PI / 2;
+this._scene.add(btn4);
+
+  //proj 5
+  const ui5 = new CanvasUI(  );
+	ui5.mesh.position.set(100, 20, 150);
+	ui5.mesh.scale.set(90,90,90);
+	ui5.mesh.rotation.set(0,22,0);
+	ui5.updateElement("body", "Project" );
+	ui5.update();
+	this._scene.add(ui5.mesh);
+
+  const btn5 = new THREE.Mesh(
+    new THREE.BoxGeometry(40,40),
+    new THREE.MeshStandardMaterial({
+        color: 0xDC143C, //ground colour
+      }));
+btn5.position.set(100,0,125);
+btn5.castShadow = false;
+btn5.receiveShadow = true;
+btn5.rotation.x = -Math.PI / 2;
+this._scene.add(btn5);
+
+  //proj 6
+  const ui6 = new CanvasUI(  );
+	ui6.mesh.position.set(-100, 20, 150);
+	ui6.mesh.scale.set(90,90,90);
+	ui6.mesh.rotation.set(0,22,0);
+	ui6.updateElement("body", "Project" );
+	ui6.update();
+	this._scene.add(ui6.mesh);
+
+  const btn6 = new THREE.Mesh(
+    new THREE.BoxGeometry(40,40),
+    new THREE.MeshStandardMaterial({
+        color: 0xDC143C, //ground colour
+      }));
+btn6.position.set(-100,0,125);
+btn6.castShadow = false;
+btn6.receiveShadow = true;
+btn6.rotation.x = -Math.PI / 2;
+this._scene.add(btn6);
+
+  //proj 7
+  const ui7 = new CanvasUI(  );
+	ui7.mesh.position.set(300, 20, 0);
+	ui7.mesh.scale.set(90,90,90);
+	ui7.mesh.rotation.set(0,11,0);
+	ui7.updateElement("body", "Project" );
+	ui7.update();
+	this._scene.add(ui7.mesh);
+
+  const btn7 = new THREE.Mesh(
+    new THREE.BoxGeometry(40,40),
+    new THREE.MeshStandardMaterial({
+        color: 0xDC143C, //ground colour
+      }));
+btn7.position.set(275,0,0);
+btn7.castShadow = false;
+btn7.receiveShadow = true;
+btn7.rotation.x = -Math.PI / 2;
+this._scene.add(btn7);
+
+  //proj 8
+  const ui8 = new CanvasUI(  );
+	ui8.mesh.position.set(200, 20, 100);
+	ui8.mesh.scale.set(90,90,90);
+	ui8.mesh.rotation.set(0,11,0);
+	ui8.updateElement("body", "Project" );
+	ui8.update();
+	this._scene.add(ui8.mesh);
+
+  const btn8 = new THREE.Mesh(
+    new THREE.BoxGeometry(40,40),
+    new THREE.MeshStandardMaterial({
+        color: 0xDC143C, //ground colour
+      }));
+btn8.position.set(175,0,100);
+btn8.castShadow = false;
+btn8.receiveShadow = true;
+btn8.rotation.x = -Math.PI / 2;
+this._scene.add(btn8);
+
+  //proj 9
+  const ui9 = new CanvasUI(  );
+	ui9.mesh.position.set(200, 20, -100);
+	ui9.mesh.scale.set(90,90,90);
+	ui9.mesh.rotation.set(0,11,0);
+	ui9.updateElement("body", "Project" );
+	ui9.update();
+	this._scene.add(ui9.mesh);
+
+  const btn9 = new THREE.Mesh(
+    new THREE.BoxGeometry(40,40),
+    new THREE.MeshStandardMaterial({
+        color: 0xDC143C, //ground colour
+      }));
+btn9.position.set(175,0,-100);
+btn9.castShadow = false;
+btn9.receiveShadow = true;
+btn9.rotation.x = -Math.PI / 2;
+this._scene.add(btn9);
+
+  //proj 10
+  const ui10 = new CanvasUI(  );
+	ui10.mesh.position.set(-300, 20, 0);
+	ui10.mesh.scale.set(90,90,90);
+	ui10.mesh.rotation.set(0,-11,0);
+	ui10.updateElement("body", "Project" );
+	ui10.update();
+	this._scene.add(ui10.mesh);
+
+  const btn10 = new THREE.Mesh(
+    new THREE.BoxGeometry(40,40),
+    new THREE.MeshStandardMaterial({
+        color: 0xDC143C, //ground colour
+      }));
+btn10.position.set(-275,0,0);
+btn10.castShadow = false;
+btn10.receiveShadow = true;
+btn10.rotation.x = -Math.PI / 2;
+this._scene.add(btn10);
+
+  //proj 11
+  const ui11 = new CanvasUI(  );
+	ui11.mesh.position.set(-200, 20, -100);
+	ui11.mesh.scale.set(90,90,90);
+	ui11.mesh.rotation.set(0,-11,0);
+	ui11.updateElement("body", "Project" );
+	ui11.update();
+	this._scene.add(ui11.mesh);
+
+  const btn11 = new THREE.Mesh(
+    new THREE.BoxGeometry(40,40),
+    new THREE.MeshStandardMaterial({
+        color: 0xDC143C, //ground colour
+      }));
+btn11.position.set(-175,0,-100);
+btn11.castShadow = false;
+btn11.receiveShadow = true;
+btn11.rotation.x = -Math.PI / 2;
+this._scene.add(btn11);
+
+  //proj 12
+  const ui12 = new CanvasUI(  );
+	ui12.mesh.position.set(-200,20,100);
+	ui12.mesh.scale.set(90,90,90);
+	ui12.mesh.rotation.set(0,-11,0);
+	ui12.updateElement("body", "Project" );
+	ui12.update();
+	this._scene.add(ui12.mesh);
+
+  const btn12 = new THREE.Mesh(
+    new THREE.BoxGeometry(40,40),
+    new THREE.MeshStandardMaterial({
+        color: 0xDC143C, //ground colour
+      }));
+btn12.position.set(-175,0,100);
+btn12.castShadow = false;
+btn12.receiveShadow = true;
+btn12.rotation.x = -Math.PI / 2;
+this._scene.add(btn12);
+
+
   }
 
   
