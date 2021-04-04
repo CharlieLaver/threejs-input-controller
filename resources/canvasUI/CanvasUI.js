@@ -491,7 +491,7 @@ class CanvasUI{
                 }else if (config.type == "img"){
                     if (config.img === undefined){
                         this.loadImage(content).then(img =>{
-                            console.log(`w: ${img.width} | h: ${img.height}`);
+                            //console.log(`w: ${img.width} | h: ${img.height}`);
                             config.img = img;
                             self.needsUpdate = true;
                             self.update();           

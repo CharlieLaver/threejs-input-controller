@@ -767,13 +767,20 @@ class ThirdPersonCameraDemo {
   _LoadGUI() {
 
     //proj 1
-  const ui = new CanvasUI(  );
-	ui.mesh.position.set(0, 20, -200);
+const config = {
+  image: { type: "img", position: { left: 135, top: 20 }, width: 250, height: 300 },
+  info: { type: "text", position: { top: 310 } }
+  }
+  const content = {
+      image: "./resources/images/node.png",
+      info: "I have built backend services for some of my applications using Node."
+  }
+  const ui = new CanvasUI( content, config );
+  ui.mesh.position.set(0, 40, -200);
 	ui.mesh.scale.set(90,90,90);
 	ui.mesh.rotation.set(0,0,0);
-	ui.updateElement("body", "Project" );
-	ui.update();
-	this._scene.add(ui.mesh);
+  ui.update();
+  this._scene.add(ui.mesh);
 
   const btn = new THREE.Mesh(
     new THREE.BoxGeometry(40,40),
@@ -788,13 +795,20 @@ this._scene.add(btn);
 
 
   //proj 2
-  const ui2 = new CanvasUI(  );
-	ui2.mesh.position.set(100, 20, -150);
-	ui2.mesh.scale.set(90,90,90);
-	ui2.mesh.rotation.set(0,0,0);
-	ui2.updateElement("body", "Project" );
-	ui2.update();
-	this._scene.add(ui2.mesh);
+  const config2 = {
+    image: { type: "img", position: { left: 20, top: 0 }, width: 472, height: 300 },
+    info: { type: "text", position: { top: 310 } }
+    }
+    const content2 = {
+        image: "./resources/images/react.png",
+        info: "I am extremely confident with React and have a deep understanding of the component-based-architecture."
+    }
+    const ui2 = new CanvasUI( content2, config2 );
+    ui2.mesh.position.set(100, 40, -150);
+    ui2.mesh.scale.set(90,90,90);
+    ui2.mesh.rotation.set(0,0,0);
+    ui2.update();
+    this._scene.add(ui2.mesh);
 
   const btn2 = new THREE.Mesh(
     new THREE.BoxGeometry(40,40),
@@ -809,13 +823,20 @@ this._scene.add(btn2);
 
 
   //proj 3
-  const ui3 = new CanvasUI(  );
-	ui3.mesh.position.set(-100, 20, -150);
-	ui3.mesh.scale.set(90,90,90);
-	ui3.mesh.rotation.set(0,0,0);
-	ui3.updateElement("body", "Project" );
-	ui3.update();
-	this._scene.add(ui3.mesh);
+  const config3 = {
+    image: { type: "img", position: { left: 160, top: 50 }, width: 200, height: 300 },
+    info: { type: "text", position: { top: 310 } }
+    }
+    const content3 = {
+        image: "./resources/images/jest.png",
+        info: "I have experience testing with Jest. Including using it alongside React Testing Library to run tests on UI components."
+    }
+    const ui3 = new CanvasUI( content3, config3 );
+    ui3.mesh.position.set(-100, 40, -150);
+    ui3.mesh.scale.set(90,90,90);
+    ui3.mesh.rotation.set(0,0,0);
+    ui3.update();
+    this._scene.add(ui3.mesh);
 
   const btn3 = new THREE.Mesh(
     new THREE.BoxGeometry(40,40),
@@ -888,14 +909,38 @@ btn6.receiveShadow = true;
 btn6.rotation.x = -Math.PI / 2;
 this._scene.add(btn6);
 
+
   //proj 7
-  const ui7 = new CanvasUI(  );
-	ui7.mesh.position.set(300, 20, 0);
-	ui7.mesh.scale.set(90,90,90);
-	ui7.mesh.rotation.set(0,11,0);
-	ui7.updateElement("body", "Project" );
-	ui7.update();
-	this._scene.add(ui7.mesh);
+  const css7 = {
+    header:{
+        type: "text",
+        position:{ top:0 },
+        paddingTop: 30,
+        height: 70,
+        backgroundColor: "#bbb",
+        fontColor: '#000'
+    },
+    main:{
+        type: "text",
+        position:{ top:70 },
+        height: 372, // default height is 512 so this is 512 - header height:70 - footer height:70
+        backgroundColor: "#000",
+        fontColor: "#bbb",
+    },
+    image: { type: "img", position: { right: 10, top: 0 }, width: 70, height: 300 },
+
+}
+const content7 = {
+    header: "custom-methods-js",
+    main: "JSON object with custom built JavaScript methods. The methods provide a slightly more convenient and elegant way to combat common js problems.",
+    image: "./resources/images/github.png",
+}
+const ui7 = new CanvasUI( content7, css7 );
+ui7.mesh.position.set(300, 20, 0);
+ui7.mesh.scale.set(90,90,90);
+ui7.mesh.rotation.set(0,11,0);
+ui7.update();
+this._scene.add(ui7.mesh);
 
   const btn7 = new THREE.Mesh(
     new THREE.BoxGeometry(40,40),
@@ -909,13 +954,35 @@ btn7.rotation.x = -Math.PI / 2;
 this._scene.add(btn7);
 
   //proj 8
-  const ui8 = new CanvasUI(  );
-	ui8.mesh.position.set(200, 20, 100);
-	ui8.mesh.scale.set(90,90,90);
-	ui8.mesh.rotation.set(0,11,0);
-	ui8.updateElement("body", "Project" );
-	ui8.update();
-	this._scene.add(ui8.mesh);
+  const css8 = {
+    header:{
+      type: "text",
+      position:{ top:0 },
+      paddingTop: 30,
+      height: 70,
+      backgroundColor: "#bbb",
+      fontColor: '#000'
+  },
+  main:{
+      type: "text",
+      position:{ top:70 },
+      height: 372, // default height is 512 so this is 512 - header height:70 - footer height:70
+      backgroundColor: "#000",
+      fontColor: "#bbb",
+  },
+  image: { type: "img", position: { right: 10, top: 0 }, width: 70, height: 300 },
+}
+const content8 = {
+    header: "node-email-server",
+    main: "Node JS server that sends emails from a contact form (the test form is located at localhost:3001). To use in web app, just change the PORT listener and email account info.",
+    image: "./resources/images/github.png",
+}
+const ui8 = new CanvasUI( content8, css8 );
+ui8.mesh.position.set(200, 20, 100);
+ui8.mesh.scale.set(90,90,90);
+ui8.mesh.rotation.set(0,11,0);
+ui8.update();
+this._scene.add(ui8.mesh);
 
   const btn8 = new THREE.Mesh(
     new THREE.BoxGeometry(40,40),
@@ -929,13 +996,35 @@ btn8.rotation.x = -Math.PI / 2;
 this._scene.add(btn8);
 
   //proj 9
-  const ui9 = new CanvasUI(  );
-	ui9.mesh.position.set(200, 20, -100);
-	ui9.mesh.scale.set(90,90,90);
-	ui9.mesh.rotation.set(0,11,0);
-	ui9.updateElement("body", "Project" );
-	ui9.update();
-	this._scene.add(ui9.mesh);
+  const css9 = {
+    header:{
+      type: "text",
+      position:{ top:0 },
+      paddingTop: 30,
+      height: 70,
+      backgroundColor: "#bbb",
+      fontColor: '#000'
+  },
+  main:{
+      type: "text",
+      position:{ top:70 },
+      height: 372, // default height is 512 so this is 512 - header height:70 - footer height:70
+      backgroundColor: "#000",
+      fontColor: "#bbb",
+  },
+  image: { type: "img", position: { right: 10, top: 0 }, width: 70, height: 300 },
+}
+const content9 = {
+    header: "react-component-collection",
+    main: "A library of easy to implement react components. This repo is split into functional & class components. To use a component in your project just download the files and follow the comments stated in the code.",
+    image: "./resources/images/github.png",
+}
+const ui9 = new CanvasUI( content9, css9 );
+ui9.mesh.position.set(200, 20, -100);
+ui9.mesh.scale.set(90,90,90);
+ui9.mesh.rotation.set(0,11,0);
+ui9.update();
+this._scene.add(ui9.mesh);
 
   const btn9 = new THREE.Mesh(
     new THREE.BoxGeometry(40,40),
@@ -949,13 +1038,35 @@ btn9.rotation.x = -Math.PI / 2;
 this._scene.add(btn9);
 
   //proj 10
-  const ui10 = new CanvasUI(  );
-	ui10.mesh.position.set(-300, 20, 0);
-	ui10.mesh.scale.set(90,90,90);
-	ui10.mesh.rotation.set(0,-11,0);
-	ui10.updateElement("body", "Project" );
-	ui10.update();
-	this._scene.add(ui10.mesh);
+  const css10 = {
+    header:{
+      type: "text",
+      position:{ top:0 },
+      paddingTop: 30,
+      height: 70,
+      backgroundColor: "#bbb",
+      fontColor: '#000'
+  },
+  main:{
+      type: "text",
+      position:{ top:70 },
+      height: 372, // default height is 512 so this is 512 - header height:70 - footer height:70
+      backgroundColor: "#000",
+      fontColor: "#bbb",
+  },
+  image: { type: "img", position: { right: 10, top: 0 }, width: 20, height: 300 },
+}
+const content10 = {
+    header: "UI Clone's",
+    main: "I built a replica of the popular UI in ReactJS. My main objective for this project was to follow a specification set by an existing interface.",
+    image: "./resources/images/netflix-clone.png",
+}
+const ui10 = new CanvasUI( content10, css10 );
+ui10.mesh.position.set(-300, 20, 0);
+ui10.mesh.scale.set(90,90,90);
+ui10.mesh.rotation.set(0,-11,0);
+ui10.update();
+this._scene.add(ui10.mesh);
 
   const btn10 = new THREE.Mesh(
     new THREE.BoxGeometry(40,40),
