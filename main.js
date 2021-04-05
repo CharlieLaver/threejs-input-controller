@@ -9,12 +9,7 @@ let zoneObj = {
   zone3: false,
   zone4: false,
   zone5: false,
-  zone6: false,
-  zone7: false,
-  zone8: false,
-  zone9: false,
 }
-
 
 /*******************************user navigation and animation **************************/
 
@@ -95,7 +90,42 @@ class BasicCharacterController {
     let currentPosition = this._position;
     let currZ = Math.round(currentPosition.z);
     let currX = Math.round(currentPosition.x)
-    
+    //console.log(currX);
+
+    //github btn
+    if((currZ > 30 && currZ < 65) && (currX > 70 && currX < 105)) {
+        zoneObj.zone1 = true;     
+    } else {
+      zoneObj.zone1 = false;           
+    }
+
+    //youtube btn
+    if((currZ > 140 && currZ < 180) && (currX > 180 && currX < 220)) {
+      zoneObj.zone2 = true;
+    } else {
+      zoneObj.zone2 = false;
+    }
+
+    //contact btn
+    if((currZ > -110 && currZ < -70) && (currX > 120 && currX < 160)) {
+      zoneObj.zone3 = true;
+    } else {
+      zoneObj.zone3 = false;
+    }
+
+    //repo1 btn
+    if((currZ > -290 && currZ < -250) && (currX > 120 && currX < 160)) {
+      zoneObj.zone4 = true;
+    } else {
+      zoneObj.zone4 = false;
+    }
+
+    //repo2 btn
+    if((currZ > -170 && currZ < -130) && (currX > -20 && currX < 20)) {
+      zoneObj.zone5 = true;
+    } else {
+      zoneObj.zone5 = false;
+    }
 
     return currentPosition;
   }
@@ -132,6 +162,46 @@ class BasicCharacterController {
     const _R = controlObject.quaternion.clone();
 
     const acc = this._acceleration.clone();
+
+      //btns
+
+      if(zoneObj.zone1) {
+        if(this._input._keys.enter) {
+          this._input._keys.enter = false;
+            window.open("https://github.com/CharlieLaver");
+          }
+      } 
+
+      if(zoneObj.zone2) {
+        if(this._input._keys.enter) {
+          this._input._keys.enter = false;
+            window.open("https://www.youtube.com/channel/UChTZdok5eWFUWohdEkRHcmg");
+          }
+      }
+
+      if(zoneObj.zone3) {
+        if(this._input._keys.enter) {
+          this._input._keys.enter = false;
+            window.open("https://charlielaver.com/");
+          }
+      }
+
+      if(zoneObj.zone4) {
+        if(this._input._keys.enter) {
+          this._input._keys.enter = false;
+            window.open("https://github.com/CharlieLaver/react-component-collection");
+          }
+      }
+
+      if(zoneObj.zone5) {
+        if(this._input._keys.enter) {
+          this._input._keys.enter = false;
+            window.open("https://github.com/CharlieLaver/custom-methods-js");
+          }
+      }
+    
+     
+    
     
 
     if (this._stateMachine._currentState.Name == 'dance') {
@@ -198,6 +268,7 @@ class BasicCharacterControllerInput {
       left: false,
       right: false,
       space: false,
+      enter: false,
     };
     //listerns to key up & down events
     document.addEventListener('keydown', (e) => this._onKeyDown(e), false);
@@ -238,6 +309,10 @@ class BasicCharacterControllerInput {
       case 32: // SPACE
         this._keys.space = true;
         break;
+
+      case 13: // ENTER
+        this._keys.enter = true;
+        break;
     }
   }
 
@@ -273,6 +348,10 @@ class BasicCharacterControllerInput {
         
       case 32: // SPACE
         this._keys.space = false;
+        break;
+
+      case 13: // ENTER
+        this._keys.enter = false;
         break;
     }
   }
@@ -695,45 +774,26 @@ class ThirdPersonCameraDemo {
       this._scene.add(gltf.scene);
     });
 
-    loader.load('./resources/gameObjects/3dText/firebase.gltf', (gltf) => {
-      gltf.scene.traverse(c => {
-        c.castShadow = true;
-        c.position.set(-40,-25,10);
-        c.rotation.set(0.8,0.7,4.8);
-        c.scale.set(4,4,4); 
-      });
-      this._scene.add(gltf.scene);
-    });
-
     loader.load('./resources/gameObjects/3dText/games.gltf', (gltf) => {
       gltf.scene.traverse(c => {
         c.castShadow = true;
-        c.position.set(-40,10,60);
-        c.rotation.set(0.8,0.7,4.8);
-        c.scale.set(4,4,4); 
-      });
-      this._scene.add(gltf.scene);
-    });
-
-    loader.load('./resources/gameObjects/3dText/netflix.gltf', (gltf) => {
-      gltf.scene.traverse(c => {
-        c.castShadow = true;
-        c.position.set(-70,-20,0);
+        c.position.set(-50,-7,10);
         c.rotation.set(0.8,0.3,-0.7);
         c.scale.set(4,4,4); 
       });
       this._scene.add(gltf.scene);
     });
 
-    loader.load('./resources/gameObjects/3dText/youtubeClone.gltf', (gltf) => {
+    loader.load('./resources/gameObjects/3dText/projects.gltf', (gltf) => {
       gltf.scene.traverse(c => {
         c.castShadow = true;
-        c.position.set(-40,-35,-30);
+        c.position.set(-20,-13,-10);
         c.rotation.set(0.8,0.3,-0.7);
         c.scale.set(4,4,4); 
       });
       this._scene.add(gltf.scene);
     });
+
   }
 
   
@@ -781,7 +841,7 @@ const content = {
       new THREE.MeshStandardMaterial({
           color: 0xDC143C, //ground colour
         }));
-    btn1.position.set(100,0,30);
+    btn1.position.set(90,0,48);
     btn1.castShadow = false;
     btn1.receiveShadow = true;
     btn1.rotation.x = -Math.PI / 2;
@@ -792,11 +852,44 @@ const content = {
       new THREE.MeshStandardMaterial({
           color: 0xDC143C, //ground colour
         }));
-    btn2.position.set(200,0,65);
+    btn2.position.set(200,0,160);
     btn2.castShadow = false;
     btn2.receiveShadow = true;
     btn2.rotation.x = -Math.PI / 2;
     this._scene.add(btn2);
+
+    const btn3 = new THREE.Mesh(
+      new THREE.BoxGeometry(40,40),
+      new THREE.MeshStandardMaterial({
+          color: 0xDC143C, //ground colour
+        }));
+    btn3.position.set(140,0,-90);
+    btn3.castShadow = false;
+    btn3.receiveShadow = true;
+    btn3.rotation.x = -Math.PI / 2;
+    this._scene.add(btn3);
+
+    const btn4 = new THREE.Mesh(
+      new THREE.BoxGeometry(40,40),
+      new THREE.MeshStandardMaterial({
+          color: 0xDC143C, //ground colour
+        }));
+    btn4.position.set(140,0,-270);
+    btn4.castShadow = false;
+    btn4.receiveShadow = true;
+    btn4.rotation.x = -Math.PI / 2;
+    this._scene.add(btn4);
+
+    const btn5 = new THREE.Mesh(
+      new THREE.BoxGeometry(40,40),
+      new THREE.MeshStandardMaterial({
+          color: 0xDC143C, //ground colour
+        }));
+    btn5.position.set(0,0,-150);
+    btn5.castShadow = false;
+    btn5.receiveShadow = true;
+    btn5.rotation.x = -Math.PI / 2;
+    this._scene.add(btn5);
 
   }
 
