@@ -1,0 +1,321 @@
+{
+  "accessors": [
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 8959,
+      "max": [
+        1.3806561231613159,
+        0.71865266561508179,
+        1.5610895156860352
+      ],
+      "min": [
+        -1.1787080764770508,
+        -0.78044253587722778,
+        -0.76415896415710449
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 107508,
+      "componentType": 5126,
+      "count": 8959,
+      "max": [
+        0.99303394556045532,
+        0.99993783235549927,
+        0.99933737516403198
+      ],
+      "min": [
+        -0.99963390827178955,
+        -0.99999982118606567,
+        -0.99997085332870483
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 8959,
+      "max": [
+        1,
+        1,
+        0.92549020051956177,
+        1
+      ],
+      "min": [
+        0.48627451062202454,
+        0,
+        0.035294119268655777,
+        1
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 53730,
+      "max": [
+        8958
+      ],
+      "min": [
+        0
+      ],
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 215016,
+      "componentType": 5126,
+      "count": 56,
+      "max": [
+        0.077759623527526855,
+        1.5315003395080566,
+        0.42610648274421692
+      ],
+      "min": [
+        -1.0761400461196899,
+        -0.69332426786422729,
+        -0.82021033763885498
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 215688,
+      "componentType": 5126,
+      "count": 56,
+      "max": [
+        0.98972493410110474,
+        0.94351840019226074,
+        0.94327116012573242
+      ],
+      "min": [
+        -0.98972517251968384,
+        -0.94351732730865479,
+        -0.94327080249786377
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 143344,
+      "componentType": 5126,
+      "count": 56,
+      "max": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "min": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 214920,
+      "componentType": 5125,
+      "count": 324,
+      "max": [
+        55
+      ],
+      "min": [
+        0
+      ],
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "Robert Kotsch (https://sketchfab.com/robertkotsch)",
+      "license": "CC-BY-NC-ND-4.0 (http://creativecommons.org/licenses/by-nc-nd/4.0/)",
+      "source": "https://sketchfab.com/3d-models/melting-popsicle-3ff61e269aba49cc87568c458291d773",
+      "title": "Melting popsicle"
+    },
+    "generator": "Sketchfab-7.32.0",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 216216,
+      "byteOffset": 0,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 216360,
+      "byteOffset": 216216,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 144240,
+      "byteOffset": 432576,
+      "byteStride": 16,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 576816,
+      "uri": "scene.bin"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "emissiveFactor": [
+        0,
+        0,
+        0
+      ],
+      "name": "material",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.14805640240000001
+      }
+    },
+    {
+      "doubleSided": true,
+      "emissiveFactor": [
+        0,
+        0,
+        0
+      ],
+      "name": "default_material",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.4475363343913657,
+          0.33221358752861069,
+          0.1954590423645256,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.95903201220000001
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "merge2_Eis_0",
+      "primitives": [
+        {
+          "attributes": {
+            "COLOR_0": 2,
+            "NORMAL": 1,
+            "POSITION": 0
+          },
+          "indices": 3,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "merge2_default_material_0",
+      "primitives": [
+        {
+          "attributes": {
+            "COLOR_0": 6,
+            "NORMAL": 5,
+            "POSITION": 4
+          },
+          "indices": 7,
+          "material": 1,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "name": "RootNode (gltf orientation matrix)",
+      "rotation": [
+        -0.70710678118654746,
+        -0,
+        -0,
+        0.70710678118654757
+      ]
+    },
+    {
+      "children": [
+        2
+      ],
+      "name": "RootNode (model correction matrix)"
+    },
+    {
+      "children": [
+        3
+      ],
+      "matrix": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "name": "f57a994c03644cd8be4c0584d7e8b320.fbx"
+    },
+    {
+      "children": [
+        4
+      ],
+      "name": "RootNode"
+    },
+    {
+      "children": [
+        5,
+        6
+      ],
+      "name": "merge2"
+    },
+    {
+      "mesh": 0,
+      "name": "merge2_Eis_0"
+    },
+    {
+      "mesh": 1,
+      "name": "merge2_default_material_0"
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "OSG_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ]
+}
+

@@ -9,9 +9,11 @@ let zoneObj = {
   zone3: false,
   zone4: false,
   zone5: false,
+  zone6: false,
+  zone7: false,
+  zone8: false,
 }
 
-/*******************************user navigation and animation **************************/
 
 class BasicCharacterControllerProxy {
   constructor(animations) {
@@ -90,7 +92,6 @@ class BasicCharacterController {
     let currentPosition = this._position;
     let currZ = Math.round(currentPosition.z);
     let currX = Math.round(currentPosition.x)
-    //console.log(currX);
 
     //github btn
     if((currZ > 30 && currZ < 65) && (currX > 70 && currX < 105)) {
@@ -125,6 +126,27 @@ class BasicCharacterController {
       zoneObj.zone5 = true;
     } else {
       zoneObj.zone5 = false;
+    }
+
+    //repo3 btn
+    if((currZ > -220 && currZ < -180) && (currX > -140 && currX < -100)) {
+      zoneObj.zone6 = true;
+    } else {
+      zoneObj.zone6 = false;
+    }
+
+    //react btn
+    if((currZ > -80 && currZ < -40) && (currX > -100 && currX < -60)) {
+      zoneObj.zone7 = true;
+    } else {
+      zoneObj.zone7 = false;
+    }
+
+    //games btn
+    if((currZ > 70 && currZ < 110) && (currX > -195 && currX < -155)) {
+      zoneObj.zone8 = true;
+    } else {
+      zoneObj.zone8 = false;
     }
 
     return currentPosition;
@@ -199,9 +221,27 @@ class BasicCharacterController {
             window.open("https://github.com/CharlieLaver/custom-methods-js");
           }
       }
-    
-     
-    
+
+      if(zoneObj.zone6) {
+        if(this._input._keys.enter) {
+          this._input._keys.enter = false;
+            window.open("https://github.com/CharlieLaver/node-email-server");
+          }
+      }
+
+      if(zoneObj.zone7) {
+        if(this._input._keys.enter) {
+          this._input._keys.enter = false;
+            window.open("https://charlielaver.com/");
+          }
+      }
+
+      if(zoneObj.zone8) {
+        if(this._input._keys.enter) {
+          this._input._keys.enter = false;
+            window.open("https://play.google.com/store/apps/developer?id=Charlie+Laver");
+          }
+      }
     
 
     if (this._stateMachine._currentState.Name == 'dance') {
@@ -706,9 +746,123 @@ class ThirdPersonCameraDemo {
     //calls all the loader methods
     this._LoadAnimatedModel();
     this._LoadText();
+    this._LoadModel();
+    //this._LoadNpcModel();
     this._LoadGUI();
     this._LoadBtns();
     this._RAF();
+  }
+
+  
+  //loads and adds fbx animated npc models to the scene
+  _LoadNpcModel() {
+    const loader = new FBXLoader();
+
+    //model start
+    loader.setPath('./resources/gameObjects/npc/');
+    loader.load('npc.fbx', (fbx) => {
+      fbx.scale.setScalar(0.15); //sets scale
+      fbx.position.set(10,0,10); //sets position
+      fbx.traverse(c => {
+        c.castShadow = true;
+      });
+
+      const anim = new FBXLoader();
+      anim.setPath('./resources/gameObjects/npc/');
+      anim.load('dance.fbx', (anim) => {
+        const m = new THREE.AnimationMixer(fbx);
+        this._mixers.push(m);
+        const idle = m.clipAction(anim.animations[0]);
+        idle.play();
+      });
+      this._scene.add(fbx);
+    });
+    //model end
+  }
+
+  _LoadModel() {
+    const loader = new GLTFLoader();
+    //needs both the .bin and gltf files
+    loader.load('./resources/gameObjects/props/icecream/scene.gltf', (gltf) => {
+      gltf.scene.traverse(c => {
+        c.castShadow = true;
+        c.position.set(0,0.5,-8);
+        c.rotation.set(0,0,0);
+        c.scale.set(1.5,1.5,1.5); 
+      });
+      this._scene.add(gltf.scene);
+    });
+
+    loader.load('./resources/gameObjects/props/keyboard/scene.gltf', (gltf) => {
+      gltf.scene.traverse(c => {
+        c.castShadow = true;
+        c.position.set(4,0.05,1);
+        c.rotation.set(0,1,0);
+        c.scale.set(2,2,2); 
+      });
+      this._scene.add(gltf.scene);
+    });
+
+    loader.load('./resources/gameObjects/props/pizza/scene.gltf', (gltf) => {
+      gltf.scene.traverse(c => {
+        c.castShadow = true;
+        c.position.set(10,0,0);
+        c.rotation.set(0,8,0);
+        c.scale.set(1.5,1.5,1.5); 
+      });
+      this._scene.add(gltf.scene);
+    });
+
+    loader.load('./resources/gameObjects/props/headset/scene.gltf', (gltf) => {
+      gltf.scene.traverse(c => {
+        c.castShadow = true;
+        c.position.set(30,1,0);
+        c.rotation.set(0,0,0);
+        c.scale.set(0.95,0.95,0.95); 
+      });
+      this._scene.add(gltf.scene);
+    });
+
+    loader.load('./resources/gameObjects/props/glasses/scene.gltf', (gltf) => {
+      gltf.scene.traverse(c => {
+        c.castShadow = true;
+        c.position.set(0,0,-60);
+        c.rotation.set(0,1,0);
+        c.scale.set(1.1,1.1,1.1); 
+      });
+      this._scene.add(gltf.scene);
+    });
+
+    loader.load('./resources/gameObjects/props/halo/scene.gltf', (gltf) => {
+      gltf.scene.traverse(c => {
+        c.castShadow = true;
+        c.position.set(-30,-0.5,40);
+        c.rotation.set(0,-2,0);
+        c.scale.set(1.5,1.5,1.5); 
+      });
+      this._scene.add(gltf.scene);
+    });
+
+    loader.load('./resources/gameObjects/props/london/scene.gltf', (gltf) => {
+      gltf.scene.traverse(c => {
+        c.castShadow = true;
+        c.position.set(-20,0,-20);
+        c.rotation.set(0.95,0,0);
+        c.scale.set(1.1,1.1,1.1); 
+      });
+      this._scene.add(gltf.scene);
+    });
+
+    loader.load('./resources/gameObjects/props/robot/scene.gltf', (gltf) => {
+      gltf.scene.traverse(c => {
+        c.castShadow = true;
+        c.position.set(0,0,-13);
+        c.rotation.set(0,0.1,0);
+        c.scale.set(1.1,1.1,1.1); 
+      });
+      this._scene.add(gltf.scene);
+    });
+
   }
 
   _LoadText() {
@@ -821,7 +975,7 @@ class ThirdPersonCameraDemo {
 }
 const content = {
     header: "USE ARROW KEYS TO MOVE",
-    main: "VIEW LINKS BY WALKING OVER THE RED MATTS",
+    main: "PRESS ENTER WHEN ON A RED MATT TO VIEW SOURCE",
     image: "./resources/images/keys.png",
 }
 
@@ -890,6 +1044,39 @@ const content = {
     btn5.receiveShadow = true;
     btn5.rotation.x = -Math.PI / 2;
     this._scene.add(btn5);
+
+    const btn6 = new THREE.Mesh(
+      new THREE.BoxGeometry(40,40),
+      new THREE.MeshStandardMaterial({
+          color: 0xDC143C, //ground colour
+        }));
+    btn6.position.set(-120,0,-200);
+    btn6.castShadow = false;
+    btn6.receiveShadow = true;
+    btn6.rotation.x = -Math.PI / 2;
+    this._scene.add(btn6);
+
+    const btn7 = new THREE.Mesh(
+      new THREE.BoxGeometry(40,40),
+      new THREE.MeshStandardMaterial({
+          color: 0xDC143C, //ground colour
+        }));
+    btn7.position.set(-80,0,-60);
+    btn7.castShadow = false;
+    btn7.receiveShadow = true;
+    btn7.rotation.x = -Math.PI / 2;
+    this._scene.add(btn7);
+
+    const btn8 = new THREE.Mesh(
+      new THREE.BoxGeometry(40,40),
+      new THREE.MeshStandardMaterial({
+          color: 0xDC143C, //ground colour
+        }));
+    btn8.position.set(-175,0,90);
+    btn8.castShadow = false;
+    btn8.receiveShadow = true;
+    btn8.rotation.x = -Math.PI / 2;
+    this._scene.add(btn8);
 
   }
 

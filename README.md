@@ -1,5 +1,4 @@
 TO DO:
 
--button pos
--project display
--loader
+-loading page
+-sound
