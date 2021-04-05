@@ -81,12 +81,10 @@ class BasicCharacterController {
       const loader = new FBXLoader(this._manager);
       //loads the animations
       loader.setPath('./resources/user/');
-      loader.load('walk.fbx', (a) => { _OnLoad('walk', a); });
-      loader.load('run.fbx', (a) => { _OnLoad('run', a); });
+      loader.load('run.fbx', (a) => { _OnLoad('walk', a); });
       loader.load('idle.fbx', (a) => { _OnLoad('idle', a); });
       loader.load('dance.fbx', (a) => { _OnLoad('dance', a); });
-      loader.load('walkBack.fbx', (a) => { _OnLoad('walkBack', a); });
-      loader.load('runBack.fbx', (a) => { _OnLoad('runBack', a); });
+      loader.load('runBack.fbx', (a) => { _OnLoad('walkBack', a); });
     });
   }  
 
@@ -134,18 +132,19 @@ class BasicCharacterController {
     const _R = controlObject.quaternion.clone();
 
     const acc = this._acceleration.clone();
-    if (this._input._keys.shift) {
-      acc.multiplyScalar(2.0);
-    }
+    
 
     if (this._stateMachine._currentState.Name == 'dance') {
       acc.multiplyScalar(0.0);
     }
 
+    //set user speed here
     if (this._input._keys.forward) {
+      acc.multiplyScalar(3.0);
       velocity.z += acc.z * timeInSeconds;
     }
     if (this._input._keys.backward) {
+      acc.multiplyScalar(3.0);
       velocity.z -= acc.z * timeInSeconds;
     }
     if (this._input._keys.left) {
@@ -199,7 +198,6 @@ class BasicCharacterControllerInput {
       left: false,
       right: false,
       space: false,
-      shift: false,
     };
     //listerns to key up & down events
     document.addEventListener('keydown', (e) => this._onKeyDown(e), false);
@@ -240,9 +238,6 @@ class BasicCharacterControllerInput {
       case 32: // SPACE
         this._keys.space = true;
         break;
-      case 16: // SHIFT
-        this._keys.shift = true;
-        break;
     }
   }
 
@@ -278,9 +273,6 @@ class BasicCharacterControllerInput {
         
       case 32: // SPACE
         this._keys.space = false;
-        break;
-      case 16: // SHIFT
-        this._keys.shift = false;
         break;
     }
   }
@@ -336,10 +328,8 @@ class CharacterFSM extends FiniteStateMachine {
   _Init() {       //name    type
     this._AddState('idle', IdleState);
     this._AddState('walk', WalkState);
-    this._AddState('run', RunState);
     this._AddState('dance', DanceState);
     this._AddState('walkBack', WalkBackState);
-    this._AddState('runBack', RunBackState);
   }
 };
 
@@ -423,16 +413,7 @@ class WalkState extends State {
 
       curAction.enabled = true;
 
-      //deals with transitioning between run and walk  
-      if (prevState.Name == 'run') {
-        const ratio = curAction.getClip().duration / prevAction.getClip().duration;
-        curAction.time = prevAction.time * ratio;
-      } else {
-        curAction.time = 0.0;
-        curAction.setEffectiveTimeScale(1.0);
-        curAction.setEffectiveWeight(1.0);
-      }
-
+   
       curAction.crossFadeFrom(prevAction, 0.5, true);
       curAction.play();
     } else {
@@ -445,9 +426,6 @@ class WalkState extends State {
   
   Update(timeElapsed, input) {
     if (input._keys.forward) {
-      if (input._keys.shift) {
-        this._parent.SetState('run');
-      }
       return;
     }
 
@@ -472,16 +450,6 @@ class WalkBackState extends State {
 
       curAction.enabled = true;
 
-      //deals with transitioning between run and walk  
-      if (prevState.Name == 'runBack') {
-        const ratio = curAction.getClip().duration / prevAction.getClip().duration;
-        curAction.time = prevAction.time * ratio;
-      } else {
-        curAction.time = 0.0;
-        curAction.setEffectiveTimeScale(1.0);
-        curAction.setEffectiveWeight(1.0);
-      }
-
       curAction.crossFadeFrom(prevAction, 0.5, true);
       curAction.play();
     } else {
@@ -494,106 +462,6 @@ class WalkBackState extends State {
 
   Update(timeElapsed, input) {
     if (input._keys.backward) {
-      if (input._keys.shift) {
-        this._parent.SetState('runBack');
-      }
-      return;
-    }
-
-    this._parent.SetState('idle');
-  }
-};
-
-
-//run animation state
-class RunState extends State {
-  constructor(parent) {
-    super(parent);
-  }
-
-  get Name() {
-    return 'run';
-  }
-
-  Enter(prevState) {
-    const curAction = this._parent._proxy._animations['run'].action;
-    if (prevState) {
-      const prevAction = this._parent._proxy._animations[prevState.Name].action;
-
-      curAction.enabled = true;
-
-      if (prevState.Name == 'walk') {
-        const ratio = curAction.getClip().duration / prevAction.getClip().duration;
-        curAction.time = prevAction.time * ratio;
-      } else {
-        curAction.time = 0.0;
-        curAction.setEffectiveTimeScale(1.0);
-        curAction.setEffectiveWeight(1.0);
-      }
-
-      curAction.crossFadeFrom(prevAction, 0.5, true);
-      curAction.play();
-    } else {
-      curAction.play();
-    }
-  }
-
-  Exit() {
-  }
-
-  Update(timeElapsed, input) {
-    if (input._keys.forward) {
-      if (!input._keys.shift) {
-        this._parent.SetState('walk');
-      }
-      return;
-    }
-
-    this._parent.SetState('idle');
-  }
-};
-
-//run backwards animation state
-class RunBackState extends State {
-  constructor(parent) {
-    super(parent);
-  }
-
-  get Name() {
-    return 'runBack';
-  }
-
-  Enter(prevState) {
-    const curAction = this._parent._proxy._animations['runBack'].action;
-    if (prevState) {
-      const prevAction = this._parent._proxy._animations[prevState.Name].action;
-
-      curAction.enabled = true;
-
-      if (prevState.Name == 'walkBack') {
-        const ratio = curAction.getClip().duration / prevAction.getClip().duration;
-        curAction.time = prevAction.time * ratio;
-      } else {
-        curAction.time = 0.0;
-        curAction.setEffectiveTimeScale(1.0);
-        curAction.setEffectiveWeight(1.0);
-      }
-
-      curAction.crossFadeFrom(prevAction, 0.5, true);
-      curAction.play();
-    } else {
-      curAction.play();
-    }
-  }
-
-  Exit() {
-  }
-
-  Update(timeElapsed, input) {
-    if (input._keys.backward) {
-      if (!input._keys.shift) {
-        this._parent.SetState('walk');
-      }
       return;
     }
 
@@ -758,367 +626,177 @@ class ThirdPersonCameraDemo {
 
     //calls all the loader methods
     this._LoadAnimatedModel();
+    this._LoadText();
     this._LoadGUI();
+    this._LoadBtns();
     this._RAF();
+  }
+
+  _LoadText() {
+    const loader = new GLTFLoader();
+    //needs both the .bin and gltf files
+    loader.load('./resources/gameObjects/3dText/rcc.gltf', (gltf) => {
+      gltf.scene.traverse(c => {
+        c.castShadow = true;
+        c.position.set(10,-35,-50);
+        c.rotation.set(0.8,0,0);
+        c.scale.set(4,4,4); 
+      });
+      this._scene.add(gltf.scene);
+    });
+
+    loader.load('./resources/gameObjects/3dtext/nes.gltf', (gltf) => {
+      gltf.scene.traverse(c => {
+        c.castShadow = true;
+        c.position.set(-40,-30,-40);
+        c.rotation.set(0.8,0,0);
+        c.scale.set(4,4,4); 
+      });
+      this._scene.add(gltf.scene);
+    });
+
+    loader.load('./resources/gameObjects/3dText/cam.gltf', (gltf) => {
+      gltf.scene.traverse(c => {
+        c.castShadow = true;
+        c.position.set(-10,-22,-30);
+        c.rotation.set(0.8,0,0);
+        c.scale.set(4,4,4); 
+      });
+      this._scene.add(gltf.scene);
+    });
+
+    loader.load('./resources/gameObjects/3dText/github.gltf', (gltf) => {
+      gltf.scene.traverse(c => {
+        c.castShadow = true;
+        c.position.set(0,0,30);
+        c.rotation.set(0.7,1.6,4);
+        c.scale.set(4,4,4); 
+      });
+      this._scene.add(gltf.scene);
+    });
+
+    loader.load('./resources/gameObjects/3dText/youtube.gltf', (gltf) => {
+      gltf.scene.traverse(c => {
+        c.castShadow = true;
+        c.position.set(-5,-20,55);
+        c.rotation.set(0.7,1.6,4);
+        c.scale.set(4,4,4); 
+      });
+      this._scene.add(gltf.scene);
+    });
+
+    loader.load('./resources/gameObjects/3dText/contact.gltf', (gltf) => {
+      gltf.scene.traverse(c => {
+        c.castShadow = true;
+        c.position.set(10,40,40);
+        c.rotation.set(0.7,1.6,4);
+        c.scale.set(4,4,4); 
+      });
+      this._scene.add(gltf.scene);
+    });
+
+    loader.load('./resources/gameObjects/3dText/firebase.gltf', (gltf) => {
+      gltf.scene.traverse(c => {
+        c.castShadow = true;
+        c.position.set(-40,-25,10);
+        c.rotation.set(0.8,0.7,4.8);
+        c.scale.set(4,4,4); 
+      });
+      this._scene.add(gltf.scene);
+    });
+
+    loader.load('./resources/gameObjects/3dText/games.gltf', (gltf) => {
+      gltf.scene.traverse(c => {
+        c.castShadow = true;
+        c.position.set(-40,10,60);
+        c.rotation.set(0.8,0.7,4.8);
+        c.scale.set(4,4,4); 
+      });
+      this._scene.add(gltf.scene);
+    });
+
+    loader.load('./resources/gameObjects/3dText/netflix.gltf', (gltf) => {
+      gltf.scene.traverse(c => {
+        c.castShadow = true;
+        c.position.set(-70,-20,0);
+        c.rotation.set(0.8,0.3,-0.7);
+        c.scale.set(4,4,4); 
+      });
+      this._scene.add(gltf.scene);
+    });
+
+    loader.load('./resources/gameObjects/3dText/youtubeClone.gltf', (gltf) => {
+      gltf.scene.traverse(c => {
+        c.castShadow = true;
+        c.position.set(-40,-35,-30);
+        c.rotation.set(0.8,0.3,-0.7);
+        c.scale.set(4,4,4); 
+      });
+      this._scene.add(gltf.scene);
+    });
   }
 
   
   //loads 2d UI elements
   _LoadGUI() {
-
-    //proj 1
-const config = {
-  image: { type: "img", position: { left: 135, top: 20 }, width: 250, height: 300 },
-  info: { type: "text", position: { top: 310 } }
-  }
-  const content = {
-      image: "./resources/images/node.png",
-      info: "I have built backend services for some of my applications using Node."
-  }
-  const ui = new CanvasUI( content, config );
-  ui.mesh.position.set(0, 40, -200);
-	ui.mesh.scale.set(90,90,90);
-	ui.mesh.rotation.set(0,0,0);
-  ui.update();
-  this._scene.add(ui.mesh);
-
-  const btn = new THREE.Mesh(
-    new THREE.BoxGeometry(40,40),
-    new THREE.MeshStandardMaterial({
-        color: 0xDC143C, //ground colour
-      }));
-btn.position.set(0,0,-175);
-btn.castShadow = false;
-btn.receiveShadow = true;
-btn.rotation.x = -Math.PI / 2;
-this._scene.add(btn);
-
-
-  //proj 2
-  const config2 = {
-    image: { type: "img", position: { left: 20, top: 0 }, width: 472, height: 300 },
-    info: { type: "text", position: { top: 310 } }
-    }
-    const content2 = {
-        image: "./resources/images/react.png",
-        info: "I am extremely confident with React and have a deep understanding of the component-based-architecture."
-    }
-    const ui2 = new CanvasUI( content2, config2 );
-    ui2.mesh.position.set(100, 40, -150);
-    ui2.mesh.scale.set(90,90,90);
-    ui2.mesh.rotation.set(0,0,0);
-    ui2.update();
-    this._scene.add(ui2.mesh);
-
-  const btn2 = new THREE.Mesh(
-    new THREE.BoxGeometry(40,40),
-    new THREE.MeshStandardMaterial({
-        color: 0xDC143C, //ground colour
-      }));
-btn2.position.set(100,0,-125);
-btn2.castShadow = false;
-btn2.receiveShadow = true;
-btn2.rotation.x = -Math.PI / 2;
-this._scene.add(btn2);
-
-
-  //proj 3
-  const config3 = {
-    image: { type: "img", position: { left: 160, top: 50 }, width: 200, height: 300 },
-    info: { type: "text", position: { top: 310 } }
-    }
-    const content3 = {
-        image: "./resources/images/jest.png",
-        info: "I have experience testing with Jest. Including using it alongside React Testing Library to run tests on UI components."
-    }
-    const ui3 = new CanvasUI( content3, config3 );
-    ui3.mesh.position.set(-100, 40, -150);
-    ui3.mesh.scale.set(90,90,90);
-    ui3.mesh.rotation.set(0,0,0);
-    ui3.update();
-    this._scene.add(ui3.mesh);
-
-  const btn3 = new THREE.Mesh(
-    new THREE.BoxGeometry(40,40),
-    new THREE.MeshStandardMaterial({
-        color: 0xDC143C, //ground colour
-      }));
-btn3.position.set(-100,0,-125);
-btn3.castShadow = false;
-btn3.receiveShadow = true;
-btn3.rotation.x = -Math.PI / 2;
-this._scene.add(btn3);
-
-  //proj 4
-  const ui4 = new CanvasUI(  );
-	ui4.mesh.position.set(0, 20, 200);
-	ui4.mesh.scale.set(90,90,90);
-	ui4.mesh.rotation.set(0,22,0);
-	ui4.updateElement("body", "Project" );
-	ui4.update();
-	this._scene.add(ui4.mesh);
-
-  const btn4 = new THREE.Mesh(
-    new THREE.BoxGeometry(40,40),
-    new THREE.MeshStandardMaterial({
-        color: 0xDC143C, //ground colour
-      }));
-btn4.position.set(0,0,175);
-btn4.castShadow = false;
-btn4.receiveShadow = true;
-btn4.rotation.x = -Math.PI / 2;
-this._scene.add(btn4);
-
-  //proj 5
-  const ui5 = new CanvasUI(  );
-	ui5.mesh.position.set(100, 20, 150);
-	ui5.mesh.scale.set(90,90,90);
-	ui5.mesh.rotation.set(0,22,0);
-	ui5.updateElement("body", "Project" );
-	ui5.update();
-	this._scene.add(ui5.mesh);
-
-  const btn5 = new THREE.Mesh(
-    new THREE.BoxGeometry(40,40),
-    new THREE.MeshStandardMaterial({
-        color: 0xDC143C, //ground colour
-      }));
-btn5.position.set(100,0,125);
-btn5.castShadow = false;
-btn5.receiveShadow = true;
-btn5.rotation.x = -Math.PI / 2;
-this._scene.add(btn5);
-
-  //proj 6
-  const ui6 = new CanvasUI(  );
-	ui6.mesh.position.set(-100, 20, 150);
-	ui6.mesh.scale.set(90,90,90);
-	ui6.mesh.rotation.set(0,22,0);
-	ui6.updateElement("body", "Project" );
-	ui6.update();
-	this._scene.add(ui6.mesh);
-
-  const btn6 = new THREE.Mesh(
-    new THREE.BoxGeometry(40,40),
-    new THREE.MeshStandardMaterial({
-        color: 0xDC143C, //ground colour
-      }));
-btn6.position.set(-100,0,125);
-btn6.castShadow = false;
-btn6.receiveShadow = true;
-btn6.rotation.x = -Math.PI / 2;
-this._scene.add(btn6);
-
-
-  //proj 7
-  const css7 = {
+  const css = {
     header:{
         type: "text",
         position:{ top:0 },
         paddingTop: 30,
+        paddingLeft: 50,
         height: 70,
-        backgroundColor: "#bbb",
-        fontColor: '#000'
+        backgroundColor: "#000",
+        fontColor: '#bbb'
     },
     main:{
         type: "text",
-        position:{ top:70 },
+        position:{ top:300, left: 0 },
         height: 372, // default height is 512 so this is 512 - header height:70 - footer height:70
         backgroundColor: "#000",
         fontColor: "#bbb",
     },
-    image: { type: "img", position: { right: 10, top: 0 }, width: 70, height: 300 },
+    image: { type: "img", position: { left: 100, top: 10 }, width: 300, height: 300 },
 
 }
-const content7 = {
-    header: "custom-methods-js",
-    main: "JSON object with custom built JavaScript methods. The methods provide a slightly more convenient and elegant way to combat common js problems.",
-    image: "./resources/images/github.png",
+const content = {
+    header: "USE ARROW KEYS TO MOVE",
+    main: "VIEW LINKS BY WALKING OVER THE RED MATTS",
+    image: "./resources/images/keys.png",
 }
-const ui7 = new CanvasUI( content7, css7 );
-ui7.mesh.position.set(300, 20, 0);
-ui7.mesh.scale.set(90,90,90);
-ui7.mesh.rotation.set(0,11,0);
-ui7.update();
-this._scene.add(ui7.mesh);
 
-  const btn7 = new THREE.Mesh(
-    new THREE.BoxGeometry(40,40),
-    new THREE.MeshStandardMaterial({
-        color: 0xDC143C, //ground colour
-      }));
-btn7.position.set(275,0,0);
-btn7.castShadow = false;
-btn7.receiveShadow = true;
-btn7.rotation.x = -Math.PI / 2;
-this._scene.add(btn7);
+    const ui = new CanvasUI( content, css );
+    ui.mesh.position.set(0, 40, 200);
+	  ui.mesh.scale.set(90,90,90);
+  	ui.mesh.rotation.set(0,22,0);
+    ui.update();
+    this._scene.add(ui.mesh);
 
-  //proj 8
-  const css8 = {
-    header:{
-      type: "text",
-      position:{ top:0 },
-      paddingTop: 30,
-      height: 70,
-      backgroundColor: "#bbb",
-      fontColor: '#000'
-  },
-  main:{
-      type: "text",
-      position:{ top:70 },
-      height: 372, // default height is 512 so this is 512 - header height:70 - footer height:70
-      backgroundColor: "#000",
-      fontColor: "#bbb",
-  },
-  image: { type: "img", position: { right: 10, top: 0 }, width: 70, height: 300 },
-}
-const content8 = {
-    header: "node-email-server",
-    main: "Node JS server that sends emails from a contact form (the test form is located at localhost:3001). To use in web app, just change the PORT listener and email account info.",
-    image: "./resources/images/github.png",
-}
-const ui8 = new CanvasUI( content8, css8 );
-ui8.mesh.position.set(200, 20, 100);
-ui8.mesh.scale.set(90,90,90);
-ui8.mesh.rotation.set(0,11,0);
-ui8.update();
-this._scene.add(ui8.mesh);
+  }
 
-  const btn8 = new THREE.Mesh(
-    new THREE.BoxGeometry(40,40),
-    new THREE.MeshStandardMaterial({
-        color: 0xDC143C, //ground colour
-      }));
-btn8.position.set(175,0,100);
-btn8.castShadow = false;
-btn8.receiveShadow = true;
-btn8.rotation.x = -Math.PI / 2;
-this._scene.add(btn8);
+  _LoadBtns() {
 
-  //proj 9
-  const css9 = {
-    header:{
-      type: "text",
-      position:{ top:0 },
-      paddingTop: 30,
-      height: 70,
-      backgroundColor: "#bbb",
-      fontColor: '#000'
-  },
-  main:{
-      type: "text",
-      position:{ top:70 },
-      height: 372, // default height is 512 so this is 512 - header height:70 - footer height:70
-      backgroundColor: "#000",
-      fontColor: "#bbb",
-  },
-  image: { type: "img", position: { right: 10, top: 0 }, width: 70, height: 300 },
-}
-const content9 = {
-    header: "react-component-collection",
-    main: "A library of easy to implement react components. This repo is split into functional & class components. To use a component in your project just download the files and follow the comments stated in the code.",
-    image: "./resources/images/github.png",
-}
-const ui9 = new CanvasUI( content9, css9 );
-ui9.mesh.position.set(200, 20, -100);
-ui9.mesh.scale.set(90,90,90);
-ui9.mesh.rotation.set(0,11,0);
-ui9.update();
-this._scene.add(ui9.mesh);
+    const btn1 = new THREE.Mesh(
+      new THREE.BoxGeometry(40,40),
+      new THREE.MeshStandardMaterial({
+          color: 0xDC143C, //ground colour
+        }));
+    btn1.position.set(100,0,30);
+    btn1.castShadow = false;
+    btn1.receiveShadow = true;
+    btn1.rotation.x = -Math.PI / 2;
+    this._scene.add(btn1);
 
-  const btn9 = new THREE.Mesh(
-    new THREE.BoxGeometry(40,40),
-    new THREE.MeshStandardMaterial({
-        color: 0xDC143C, //ground colour
-      }));
-btn9.position.set(175,0,-100);
-btn9.castShadow = false;
-btn9.receiveShadow = true;
-btn9.rotation.x = -Math.PI / 2;
-this._scene.add(btn9);
-
-  //proj 10
-  const css10 = {
-    header:{
-      type: "text",
-      position:{ top:0 },
-      paddingTop: 30,
-      height: 70,
-      backgroundColor: "#bbb",
-      fontColor: '#000'
-  },
-  main:{
-      type: "text",
-      position:{ top:70 },
-      height: 372, // default height is 512 so this is 512 - header height:70 - footer height:70
-      backgroundColor: "#000",
-      fontColor: "#bbb",
-  },
-  image: { type: "img", position: { right: 10, top: 0 }, width: 20, height: 300 },
-}
-const content10 = {
-    header: "UI Clone's",
-    main: "I built a replica of the popular UI in ReactJS. My main objective for this project was to follow a specification set by an existing interface.",
-    image: "./resources/images/netflix-clone.png",
-}
-const ui10 = new CanvasUI( content10, css10 );
-ui10.mesh.position.set(-300, 20, 0);
-ui10.mesh.scale.set(90,90,90);
-ui10.mesh.rotation.set(0,-11,0);
-ui10.update();
-this._scene.add(ui10.mesh);
-
-  const btn10 = new THREE.Mesh(
-    new THREE.BoxGeometry(40,40),
-    new THREE.MeshStandardMaterial({
-        color: 0xDC143C, //ground colour
-      }));
-btn10.position.set(-275,0,0);
-btn10.castShadow = false;
-btn10.receiveShadow = true;
-btn10.rotation.x = -Math.PI / 2;
-this._scene.add(btn10);
-
-  //proj 11
-  const ui11 = new CanvasUI(  );
-	ui11.mesh.position.set(-200, 20, -100);
-	ui11.mesh.scale.set(90,90,90);
-	ui11.mesh.rotation.set(0,-11,0);
-	ui11.updateElement("body", "Project" );
-	ui11.update();
-	this._scene.add(ui11.mesh);
-
-  const btn11 = new THREE.Mesh(
-    new THREE.BoxGeometry(40,40),
-    new THREE.MeshStandardMaterial({
-        color: 0xDC143C, //ground colour
-      }));
-btn11.position.set(-175,0,-100);
-btn11.castShadow = false;
-btn11.receiveShadow = true;
-btn11.rotation.x = -Math.PI / 2;
-this._scene.add(btn11);
-
-  //proj 12
-  const ui12 = new CanvasUI(  );
-	ui12.mesh.position.set(-200,20,100);
-	ui12.mesh.scale.set(90,90,90);
-	ui12.mesh.rotation.set(0,-11,0);
-	ui12.updateElement("body", "Project" );
-	ui12.update();
-	this._scene.add(ui12.mesh);
-
-  const btn12 = new THREE.Mesh(
-    new THREE.BoxGeometry(40,40),
-    new THREE.MeshStandardMaterial({
-        color: 0xDC143C, //ground colour
-      }));
-btn12.position.set(-175,0,100);
-btn12.castShadow = false;
-btn12.receiveShadow = true;
-btn12.rotation.x = -Math.PI / 2;
-this._scene.add(btn12);
-
+    const btn2 = new THREE.Mesh(
+      new THREE.BoxGeometry(40,40),
+      new THREE.MeshStandardMaterial({
+          color: 0xDC143C, //ground colour
+        }));
+    btn2.position.set(200,0,65);
+    btn2.castShadow = false;
+    btn2.receiveShadow = true;
+    btn2.rotation.x = -Math.PI / 2;
+    this._scene.add(btn2);
 
   }
 
