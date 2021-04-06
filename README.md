@@ -1,4 +1,4 @@
 TO DO:
 
--loading page
--sound
+-Mobile optimization
+-Sound effects

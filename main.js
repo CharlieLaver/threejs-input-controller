@@ -918,7 +918,7 @@ class ThirdPersonCameraDemo {
       this._scene.add(gltf.scene);
     });
 
-    loader.load('./resources/gameObjects/3dtext/nes.gltf', (gltf) => {
+    loader.load('./resources/gameObjects/3dText/node.gltf', (gltf) => {
       gltf.scene.traverse(c => {
         c.castShadow = true;
         c.position.set(-40,-30,-40);
@@ -978,7 +978,7 @@ class ThirdPersonCameraDemo {
       this._scene.add(gltf.scene);
     });
 
-    loader.load('./resources/gameObjects/3dText/projects.gltf', (gltf) => {
+    loader.load('./resources/gameObjects/3dText/react.gltf', (gltf) => {
       gltf.scene.traverse(c => {
         c.castShadow = true;
         c.position.set(-20,-13,-10);
