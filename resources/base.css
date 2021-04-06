@@ -9,17 +9,16 @@ body {
   overflow: hidden;
 }
 
-/*
-iframe {
-  position: relative;
-  display: initial;
-  transform: scale(0.5);
-  z-index: 1;
-  margin: 0 auto;
-  width: 500%;
-  height: 100vh;
-  border: 60px solid #161616;
-  border-width: 30px;
-  border-radius: 20px;
+#loading {
+  text-align: center;
+  margin-left: 50px;
+  z-index: 100;
+  font-size: 80px;
+  font-family: sans-serif;
+  font-weight: bold;
+  margin-top: 15%;
+  color: ghostwhite;
 }
-*/
+.hidden {
+  display: none !important;
+}

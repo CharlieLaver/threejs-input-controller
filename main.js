@@ -3,6 +3,7 @@ import {FBXLoader} from 'https://cdn.jsdelivr.net/npm/three@0.118.1/examples/jsm
 import {GLTFLoader} from 'https://cdn.jsdelivr.net/npm/three@0.118.1/examples/jsm/loaders/GLTFLoader.js';
 import { CanvasUI } from './resources/canvasUI/CanvasUI.js';
 
+
 var loadingScreen = {
   scene: new THREE.Scene(),
   camera: new THREE.PerspectiveCamera(90, 1280/720, 0.1, 100),
@@ -105,7 +106,6 @@ class BasicCharacterController {
       loader.setPath('./resources/user/');
       loader.load('run.fbx', (a) => { _OnLoad('walk', a); });
       loader.load('idle.fbx', (a) => { _OnLoad('idle', a); });
-      loader.load('dance.fbx', (a) => { _OnLoad('dance', a); });
       loader.load('runBack.fbx', (a) => { _OnLoad('walkBack', a); });
     });
   }  
@@ -120,7 +120,7 @@ class BasicCharacterController {
 
     //github btn
     if((currZ > 30 && currZ < 65) && (currX > 70 && currX < 105)) {
-        zoneObj.zone1 = true;     
+        zoneObj.zone1 = true;   
     } else {
       zoneObj.zone1 = false;           
     }
@@ -229,7 +229,7 @@ class BasicCharacterController {
       if(zoneObj.zone3) {
         if(this._input._keys.enter) {
           this._input._keys.enter = false;
-            window.open("https://charlielaver.com/");
+            window.open("mailto:charlielaver7@gmail.com");
           }
       }
 
@@ -268,10 +268,6 @@ class BasicCharacterController {
           }
       }
     
-
-    if (this._stateMachine._currentState.Name == 'dance') {
-      acc.multiplyScalar(0.0);
-    }
 
     //set user speed here
     if (this._input._keys.forward) {
@@ -332,7 +328,6 @@ class BasicCharacterControllerInput {
       backward: false,
       left: false,
       right: false,
-      space: false,
       enter: false,
     };
     //listerns to key up & down events
@@ -371,10 +366,6 @@ class BasicCharacterControllerInput {
         this._keys.right = true;
         break;
 
-      case 32: // SPACE
-        this._keys.space = true;
-        break;
-
       case 13: // ENTER
         this._keys.enter = true;
         break;
@@ -409,10 +400,6 @@ class BasicCharacterControllerInput {
         break;
       case 39: // arrow right
         this._keys.right = false;
-        break;
-        
-      case 32: // SPACE
-        this._keys.space = false;
         break;
 
       case 13: // ENTER
@@ -472,7 +459,6 @@ class CharacterFSM extends FiniteStateMachine {
   _Init() {       //name    type
     this._AddState('idle', IdleState);
     this._AddState('walk', WalkState);
-    this._AddState('dance', DanceState);
     this._AddState('walkBack', WalkBackState);
   }
 };
@@ -488,56 +474,7 @@ class State {
   Update() {}
 };
 
-//dance animation state
-class DanceState extends State {
-  constructor(parent) {
-    super(parent);
 
-    this._FinishedCallback = () => {
-      this._Finished();
-    }
-  }
-
-  get Name() {
-    return 'dance';
-  }
-
-  Enter(prevState) {
-    const curAction = this._parent._proxy._animations['dance'].action;
-    const mixer = curAction.getMixer();
-    mixer.addEventListener('finished', this._FinishedCallback);
-
-    if (prevState) {
-      const prevAction = this._parent._proxy._animations[prevState.Name].action;
-
-      curAction.reset();  
-      curAction.setLoop(THREE.LoopOnce, 1);
-      curAction.clampWhenFinished = true;
-      curAction.crossFadeFrom(prevAction, 0.2, true);
-      curAction.play();
-    } else {
-      curAction.play();
-    }
-  }
-
-  _Finished() {
-    this._Cleanup();
-    this._parent.SetState('idle');
-  }
-
-  _Cleanup() {
-    const action = this._parent._proxy._animations['dance'].action;
-    
-    action.getMixer().removeEventListener('finished', this._CleanupCallback);
-  }
-
-  Exit() {
-    this._Cleanup();
-  }
-
-  Update(_) {
-  }
-};
 
 //walking animation state
 class WalkState extends State {
@@ -647,9 +584,7 @@ class IdleState extends State {
       this._parent.SetState('walk');
     } else if(input._keys.backward) {
       this._parent.SetState('walkBack');
-    } else if (input._keys.space) {
-      this._parent.SetState('dance');
-    }
+    } 
   }
 };
 
@@ -770,7 +705,7 @@ class ThirdPersonCameraDemo {
     this._LoadAnimatedModel();
     this._LoadText();
     this._LoadModel();
-    //this._LoadNpcModel();
+    this._LoadNpcModel();
     this._LoadGUI();
     this._LoadBtns();
     this._RAF();
@@ -783,16 +718,16 @@ class ThirdPersonCameraDemo {
 
     //model start
     loader.setPath('./resources/gameObjects/npc/');
-    loader.load('npc.fbx', (fbx) => {
+    loader.load('npc1.fbx', (fbx) => {
       fbx.scale.setScalar(0.15); //sets scale
-      fbx.position.set(10,0,10); //sets position
+      fbx.position.set(-50,0,-130); //sets position
       fbx.traverse(c => {
         c.castShadow = true;
       });
 
       const anim = new FBXLoader(loadingManager);
       anim.setPath('./resources/gameObjects/npc/');
-      anim.load('dance.fbx', (anim) => {
+      anim.load('dance1.fbx', (anim) => {
         const m = new THREE.AnimationMixer(fbx);
         this._mixers.push(m);
         const idle = m.clipAction(anim.animations[0]);
@@ -801,90 +736,172 @@ class ThirdPersonCameraDemo {
       this._scene.add(fbx);
     });
     //model end
+
+    //model start
+    loader.setPath('./resources/gameObjects/npc/');
+    loader.load('npc2.fbx', (fbx) => {
+      fbx.scale.setScalar(0.15); //sets scale
+      fbx.position.set(0,0,90); //sets position
+      fbx.rotation.set(0,3,0);
+      fbx.traverse(c => {
+        c.castShadow = true;
+      });
+
+      const anim = new FBXLoader(loadingManager);
+      anim.setPath('./resources/gameObjects/npc/');
+      anim.load('dance5.fbx', (anim) => {
+        const m = new THREE.AnimationMixer(fbx);
+        this._mixers.push(m);
+        const idle = m.clipAction(anim.animations[0]);
+        idle.play();
+      });
+      this._scene.add(fbx);
+    });
+    //model end
+
+    //model start
+    loader.setPath('./resources/gameObjects/npc/');
+    loader.load('npc1.fbx', (fbx) => {
+      fbx.scale.setScalar(0.15); //sets scale
+      fbx.position.set(-140,0,0); //sets position
+      fbx.rotation.set(0,2,0);
+      fbx.traverse(c => {
+        c.castShadow = true;
+      });
+
+      const anim = new FBXLoader(loadingManager);
+      anim.setPath('./resources/gameObjects/npc/');
+      anim.load('dance3.fbx', (anim) => {
+        const m = new THREE.AnimationMixer(fbx);
+        this._mixers.push(m);
+        const idle = m.clipAction(anim.animations[0]);
+        idle.play();
+      });
+      this._scene.add(fbx);
+    });
+    //model end
+
+    //model start
+    loader.setPath('./resources/gameObjects/npc/');
+    loader.load('npc2.fbx', (fbx) => {
+      fbx.scale.setScalar(0.15); //sets scale
+      fbx.position.set(0,0,-220); //sets position
+      fbx.rotation.set(0,0,0);
+      fbx.traverse(c => {
+        c.castShadow = true;
+      });
+
+      const anim = new FBXLoader(loadingManager);
+      anim.setPath('./resources/gameObjects/npc/');
+      anim.load('dance4.fbx', (anim) => {
+        const m = new THREE.AnimationMixer(fbx);
+        this._mixers.push(m);
+        const idle = m.clipAction(anim.animations[0]);
+        idle.play();
+      });
+      this._scene.add(fbx);
+    });
+    //model end
+
+    //model start
+    loader.setPath('./resources/gameObjects/npc/');
+    loader.load('npc1.fbx', (fbx) => {
+      fbx.scale.setScalar(0.15); //sets scale
+      fbx.position.set(140,0,0); //sets position
+      fbx.rotation.set(0,4,0);
+      fbx.traverse(c => {
+        c.castShadow = true;
+      });
+
+      const anim = new FBXLoader(loadingManager);
+      anim.setPath('./resources/gameObjects/npc/');
+      anim.load('dance2.fbx', (anim) => {
+        const m = new THREE.AnimationMixer(fbx);
+        this._mixers.push(m);
+        const idle = m.clipAction(anim.animations[0]);
+        idle.play();
+      });
+      this._scene.add(fbx);
+    });
+    //model end
+
+    
   }
 
   _LoadModel() {
     const loader = new GLTFLoader(loadingManager);
     //needs both the .bin and gltf files
-    loader.load('./resources/gameObjects/props/icecream/scene.gltf', (gltf) => {
+    loader.load('./resources/gameObjects/props/tree1/scene.gltf', (gltf) => {
       gltf.scene.traverse(c => {
         c.castShadow = true;
-        c.position.set(0,0.5,-8);
+        c.position.set(20,0,40);
         c.rotation.set(0,0,0);
-        c.scale.set(1.5,1.5,1.5); 
+        c.scale.set(0.7,0.7,0.7); 
       });
       this._scene.add(gltf.scene);
     });
 
-    loader.load('./resources/gameObjects/props/keyboard/scene.gltf', (gltf) => {
+    loader.load('./resources/gameObjects/props/tree2/scene.gltf', (gltf) => {
       gltf.scene.traverse(c => {
         c.castShadow = true;
-        c.position.set(4,0.05,1);
-        c.rotation.set(0,1,0);
-        c.scale.set(2,2,2); 
-      });
-      this._scene.add(gltf.scene);
-    });
-
-    loader.load('./resources/gameObjects/props/pizza/scene.gltf', (gltf) => {
-      gltf.scene.traverse(c => {
-        c.castShadow = true;
-        c.position.set(10,0,0);
-        c.rotation.set(0,8,0);
-        c.scale.set(1.5,1.5,1.5); 
-      });
-      this._scene.add(gltf.scene);
-    });
-
-    loader.load('./resources/gameObjects/props/headset/scene.gltf', (gltf) => {
-      gltf.scene.traverse(c => {
-        c.castShadow = true;
-        c.position.set(30,1,0);
+        c.position.set(-30,0,50);
         c.rotation.set(0,0,0);
-        c.scale.set(0.95,0.95,0.95); 
+        c.scale.set(0.7,0.7,0.7); 
       });
       this._scene.add(gltf.scene);
     });
 
-    loader.load('./resources/gameObjects/props/glasses/scene.gltf', (gltf) => {
+    loader.load('./resources/gameObjects/props/tree2/scene.gltf', (gltf) => {
       gltf.scene.traverse(c => {
         c.castShadow = true;
-        c.position.set(0,0,-60);
-        c.rotation.set(0,1,0);
-        c.scale.set(1.1,1.1,1.1); 
+        c.position.set(90,0,0);
+        c.rotation.set(0,0,0);
+        c.scale.set(0.7,0.7,0.7); 
       });
       this._scene.add(gltf.scene);
     });
 
-    loader.load('./resources/gameObjects/props/halo/scene.gltf', (gltf) => {
+    loader.load('./resources/gameObjects/props/tree1/scene.gltf', (gltf) => {
       gltf.scene.traverse(c => {
         c.castShadow = true;
-        c.position.set(-30,-0.5,40);
-        c.rotation.set(0,-2,0);
-        c.scale.set(1.5,1.5,1.5); 
+        c.position.set(-70,0,10);
+        c.rotation.set(0,0,0);
+        c.scale.set(0.7,0.7,0.7); 
       });
       this._scene.add(gltf.scene);
     });
 
-    loader.load('./resources/gameObjects/props/london/scene.gltf', (gltf) => {
+    loader.load('./resources/gameObjects/props/tree2/scene.gltf', (gltf) => {
       gltf.scene.traverse(c => {
         c.castShadow = true;
-        c.position.set(-20,0,-20);
-        c.rotation.set(0.95,0,0);
-        c.scale.set(1.1,1.1,1.1); 
+        c.position.set(-30,0,-110);
+        c.rotation.set(0,0,0);
+        c.scale.set(0.7,0.7,0.7); 
       });
       this._scene.add(gltf.scene);
     });
 
-    loader.load('./resources/gameObjects/props/robot/scene.gltf', (gltf) => {
+    loader.load('./resources/gameObjects/props/tree1/scene.gltf', (gltf) => {
       gltf.scene.traverse(c => {
         c.castShadow = true;
-        c.position.set(0,0,-13);
-        c.rotation.set(0,0.1,0);
-        c.scale.set(1.1,1.1,1.1); 
+        c.position.set(40,0,-50);
+        c.rotation.set(0,0,0);
+        c.scale.set(0.7,0.7,0.7); 
       });
       this._scene.add(gltf.scene);
     });
+
+    loader.load('./resources/gameObjects/props/tree2/scene.gltf', (gltf) => {
+      gltf.scene.traverse(c => {
+        c.castShadow = true;
+        c.position.set(-30,0,-40);
+        c.rotation.set(0,0,0);
+        c.scale.set(0.7,0.7,0.7); 
+      });
+      this._scene.add(gltf.scene);
+    });
+
+    
 
   }
 
@@ -998,7 +1015,7 @@ class ThirdPersonCameraDemo {
 }
 const content = {
     header: "USE ARROW KEYS TO MOVE",
-    main: "PRESS ENTER WHEN ON A RED MATT TO VIEW SOURCE",
+    main: "PRESS ENTER WHEN ON A RED MAT TO VIEW SOURCE",
     image: "./resources/images/keys.png",
 }
 
@@ -1140,6 +1157,9 @@ const content = {
         loadingScreen.box.rotation.z += 0.01;
        this._threejs.render(loadingScreen.scene, loadingScreen.camera);
        return;
+      } else {
+        let loadingText = document.getElementById('loading');
+        loadingText.classList.add('hidden');
       }
 
      this._threejs.render(this._scene, this._camera);
@@ -1192,6 +1212,10 @@ _TestLerp(0.01, 0.01);
 _TestLerp(1.0 / 100.0, 1.0 / 50.0);
 _TestLerp(1.0 - Math.pow(0.3, 1.0 / 100.0), 
           1.0 - Math.pow(0.3, 1.0 / 50.0));
+
+
+
+
 
 
 
