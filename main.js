@@ -3,6 +3,31 @@ import {FBXLoader} from 'https://cdn.jsdelivr.net/npm/three@0.118.1/examples/jsm
 import {GLTFLoader} from 'https://cdn.jsdelivr.net/npm/three@0.118.1/examples/jsm/loaders/GLTFLoader.js';
 import { CanvasUI } from './resources/canvasUI/CanvasUI.js';
 
+var loadingScreen = {
+  scene: new THREE.Scene(),
+  camera: new THREE.PerspectiveCamera(90, 1280/720, 0.1, 100),
+  box: new THREE.Mesh(
+    new THREE.BoxGeometry(0.5,0.5,0.5),
+    new THREE.MeshBasicMaterial({ color: 0xF8F8FF })
+  ),
+
+};
+
+var RESOURCES_LOADED = false;
+
+loadingScreen.scene.background = new THREE.Color( '#1E90FF' );
+
+
+loadingScreen.box.position.set(0,0,5);
+loadingScreen.camera.lookAt(loadingScreen.box.position);
+loadingScreen.scene.add(loadingScreen.box);
+
+var loadingManager = new THREE.LoadingManager();
+
+loadingManager.onLoad = function() {
+  RESOURCES_LOADED = true;
+}
+
 let zoneObj = {
   zone1: false,
   zone2: false,
@@ -46,7 +71,7 @@ class BasicCharacterController {
   }
 
   _LoadModels() {
-    const loader = new FBXLoader();
+    const loader = new FBXLoader(loadingManager);
     //loads the model file
     loader.setPath('./resources/user/');
     loader.load('user.fbx', (fbx) => {
@@ -699,9 +724,7 @@ class ThirdPersonCameraDemo {
     this._camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
     this._camera.position.set(25, 10, 25);
 
-    //scenes
     this._scene = new THREE.Scene();
-    this._UIScene = new THREE.Scene();
 
     //scene background colour
     this._scene.background = new THREE.Color( '#1E90FF' );
@@ -756,7 +779,7 @@ class ThirdPersonCameraDemo {
   
   //loads and adds fbx animated npc models to the scene
   _LoadNpcModel() {
-    const loader = new FBXLoader();
+    const loader = new FBXLoader(loadingManager);
 
     //model start
     loader.setPath('./resources/gameObjects/npc/');
@@ -767,7 +790,7 @@ class ThirdPersonCameraDemo {
         c.castShadow = true;
       });
 
-      const anim = new FBXLoader();
+      const anim = new FBXLoader(loadingManager);
       anim.setPath('./resources/gameObjects/npc/');
       anim.load('dance.fbx', (anim) => {
         const m = new THREE.AnimationMixer(fbx);
@@ -781,7 +804,7 @@ class ThirdPersonCameraDemo {
   }
 
   _LoadModel() {
-    const loader = new GLTFLoader();
+    const loader = new GLTFLoader(loadingManager);
     //needs both the .bin and gltf files
     loader.load('./resources/gameObjects/props/icecream/scene.gltf', (gltf) => {
       gltf.scene.traverse(c => {
@@ -866,7 +889,7 @@ class ThirdPersonCameraDemo {
   }
 
   _LoadText() {
-    const loader = new GLTFLoader();
+    const loader = new GLTFLoader(loadingManager);
     //needs both the .bin and gltf files
     loader.load('./resources/gameObjects/3dText/rcc.gltf', (gltf) => {
       gltf.scene.traverse(c => {
@@ -1110,6 +1133,15 @@ const content = {
 
       this._RAF();
       //render
+
+      //loading screen
+      if(RESOURCES_LOADED == false) {
+        loadingScreen.box.rotation.y += 0.01;
+        loadingScreen.box.rotation.z += 0.01;
+       this._threejs.render(loadingScreen.scene, loadingScreen.camera);
+       return;
+      }
+
      this._threejs.render(this._scene, this._camera);
       this._Step(t - this._previousRAF);
       this._previousRAF = t;
