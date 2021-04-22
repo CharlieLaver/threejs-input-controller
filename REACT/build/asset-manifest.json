@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/static/css/main.badcaea6.chunk.css",
+    "main.js": "/static/js/main.20b3aa71.chunk.js",
+    "main.js.map": "/static/js/main.20b3aa71.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.d0605945.js",
+    "runtime-main.js.map": "/static/js/runtime-main.d0605945.js.map",
+    "static/css/2.ccf70332.chunk.css": "/static/css/2.ccf70332.chunk.css",
+    "static/js/2.ee690bf8.chunk.js": "/static/js/2.ee690bf8.chunk.js",
+    "static/js/2.ee690bf8.chunk.js.map": "/static/js/2.ee690bf8.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/2.ccf70332.chunk.css.map": "/static/css/2.ccf70332.chunk.css.map",
+    "static/css/main.badcaea6.chunk.css.map": "/static/css/main.badcaea6.chunk.css.map",
+    "static/js/2.ee690bf8.chunk.js.LICENSE.txt": "/static/js/2.ee690bf8.chunk.js.LICENSE.txt",
+    "static/media/vid1.dbf61b66.mkv": "/static/media/vid1.dbf61b66.mkv",
+    "static/media/vid2.cd5473b8.mp4": "/static/media/vid2.cd5473b8.mp4",
+    "static/media/vid3.22acab75.mp4": "/static/media/vid3.22acab75.mp4"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.d0605945.js",
+    "static/css/2.ccf70332.chunk.css",
+    "static/js/2.ee690bf8.chunk.js",
+    "static/css/main.badcaea6.chunk.css",
+    "static/js/main.20b3aa71.chunk.js"
+  ]
+}
