@@ -257,7 +257,7 @@ class BasicCharacterController {
       if(zoneObj.zone7) {
         if(this._input._keys.enter) {
           this._input._keys.enter = false;
-            window.open("https://charlielaver.com/");
+            window.open("https://charlie-laver-portfolio-6b3c8.web.app/");
           }
       }
 
