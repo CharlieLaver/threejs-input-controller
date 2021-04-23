@@ -20,7 +20,7 @@ const Slider = () => {
 
   useEffect(() => {
     function handleResize() {
-      if(window.innerWidth < 1000)
+      if(window.innerWidth <= 1000)
         setSmallScreen(true);
       else
        setSmallScreen(false);
