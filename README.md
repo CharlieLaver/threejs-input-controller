@@ -1,4 +1,3 @@
 TO DO:
 
--Mobile optimization
--FIX event listener
+-3DUX Mobile optimization
