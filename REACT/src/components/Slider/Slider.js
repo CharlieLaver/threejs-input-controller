@@ -16,7 +16,15 @@ SwiperCore.use([EffectCube, Autoplay, Pagination]);
 
 const Slider = () => {
 
-  const [smallScreen, setSmallScreen] = useState(false);
+  const handleLoad = () => {
+    if(window.innerWidth <= 1000)
+      return true;
+    else
+      return false;
+  };
+
+  const [smallScreen, setSmallScreen] = useState(handleLoad);
+
 
   useEffect(() => {
     function handleResize() {
@@ -26,10 +34,9 @@ const Slider = () => {
        setSmallScreen(false);
   }
     window.addEventListener('resize', handleResize);
-    window.addEventListener('load', handleResize);
   });
 
-
+  
   return (
     <Swiper 
         effect="cube"
@@ -40,7 +47,7 @@ const Slider = () => {
       <SwiperSlide className={smallScreen ? 'smSlide' : 'slide'}>
           <div className={smallScreen ? 'smContent' : 'content'}>
             <h1>Hello, my name is Charlie,</h1>
-            <p>I am a JavaScript developer with a passion for UX. I have experience working with React, Node & Vanilla JS. Click below to launch my 3D portfolio or you can swipe right to view some examples of my work.</p>
+            <p>I am a JavaScript developer with a passion for UX. I have experience working with React, Node & Vanilla JS. Click below to launch my 3D portfolio or you can swipe left to view some examples of my work.</p>
             <Button  href={'https://d-portfolio-a2481.web.app/'} className='btn'>START 3D SITE</Button>
           </div>
           <div className='vid'><video autoPlay loop muted><source src={Vid} type='video/mp4'/></video></div>
