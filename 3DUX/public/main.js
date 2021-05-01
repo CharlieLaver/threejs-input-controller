@@ -316,10 +316,11 @@ class BasicCharacterController {
   }
 };
 
-//listerns for keyboard input
+
+//listerns for keyboard and button input
 class BasicCharacterControllerInput {
   constructor() {
-    this._Init();    
+    this._Init();
   }
 
   _Init() {
@@ -333,6 +334,60 @@ class BasicCharacterControllerInput {
     //listerns to key up & down events
     document.addEventListener('keydown', (e) => this._onKeyDown(e), false);
     document.addEventListener('keyup', (e) => this._onKeyUp(e), false);
+
+    //listerns for btn events
+    document.getElementById('forward').addEventListener('mousedown', () => this._forwardDown(), false);
+    document.getElementById('forward').addEventListener('mouseup', () => this._forwardUp(), false);
+    document.getElementById('backward').addEventListener('mousedown', () => this._backwardDown(), false);
+    document.getElementById('backward').addEventListener('mouseup', () => this._backwardUp(), false);
+    document.getElementById('left').addEventListener('mousedown', () => this._leftDown(), false);
+    document.getElementById('left').addEventListener('mouseup', () => this._leftUp(), false);
+    document.getElementById('right').addEventListener('mousedown', () => this._rightDown(), false);
+    document.getElementById('right').addEventListener('mouseup', () => this._rightUp(), false);
+    document.getElementById('enter').addEventListener('mousedown', () => this._enterDown(), false);
+    document.getElementById('enter').addEventListener('mouseup', () => this._enterUp(), false);
+
+  }
+
+  //mobile navigation
+  _forwardDown() {
+    this._keys.forward = true;    
+  }
+
+  _forwardUp() {
+    this._keys.forward = false;
+  }
+
+  _backwardDown() {
+    this._keys.backward = true;
+  }
+
+  _backwardUp() {
+    this._keys.backward = false;
+  }
+
+  _leftDown() {
+    this._keys.left = true;
+  }
+
+  _leftUp() {
+    this._keys.left = false;
+  }
+
+  _rightDown() {
+    this._keys.right = true;
+  }
+
+  _rightUp() {
+    this._keys.right = false;
+  }
+
+  _enterDown() {
+    this._keys.enter = true;
+  }
+
+  _enterUp() {
+    this._keys.enter = false;
   }
 
   //keyboard navigation
@@ -408,7 +463,6 @@ class BasicCharacterControllerInput {
     }
   }
 };
-
 
 class FiniteStateMachine {
   constructor() {
@@ -1153,13 +1207,27 @@ const content = {
 
       //loading screen
       if(RESOURCES_LOADED == false) {
+
+        document.getElementById('forward').classList.add('hidden');
+        document.getElementById('backward').classList.add('hidden');
+        document.getElementById('left').classList.add('hidden');
+        document.getElementById('right').classList.add('hidden');
+        document.getElementById('enter').classList.add('hidden');
+
         loadingScreen.box.rotation.y += 0.01;
         loadingScreen.box.rotation.z += 0.01;
        this._threejs.render(loadingScreen.scene, loadingScreen.camera);
        return;
       } else {
-        let loadingText = document.getElementById('loading');
-        loadingText.classList.add('hidden');
+
+        document.getElementById('forward').classList.remove('hidden');
+        document.getElementById('backward').classList.remove('hidden');
+        document.getElementById('left').classList.remove('hidden');
+        document.getElementById('right').classList.remove('hidden');
+        document.getElementById('enter').classList.remove('hidden');
+
+        document.getElementById('loading').classList.add('hidden');
+        
       }
 
      this._threejs.render(this._scene, this._camera);

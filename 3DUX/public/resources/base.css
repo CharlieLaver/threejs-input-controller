@@ -22,3 +22,44 @@ body {
 .hidden {
   display: none !important;
 }
+
+#forward,
+#backward,
+#left,
+#right,
+#enter {
+  position: fixed;
+  z-index: 1000;
+  width: 70px;
+  height: 40px;
+}
+
+#forward {
+  top: 0%;
+}
+
+#backward {
+  top: 5%;
+}
+
+#left {
+  top: 10%;
+}
+
+#right {
+  top: 15%;
+}
+
+#enter {
+  top: 20%;
+}
+
+@media only screen and (min-width: 1000px) {
+  #forward,
+  #backward,
+  #left,
+  #right,
+  #enter {
+    display: none;
+  }
+}

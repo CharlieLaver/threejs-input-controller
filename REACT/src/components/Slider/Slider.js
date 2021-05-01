@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { EffectCube, Autoplay, Pagination } from 'swiper';
 import './Slider.css';
