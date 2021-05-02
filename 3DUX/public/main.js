@@ -746,7 +746,7 @@ class ThirdPersonCameraDemo {
             color: 0xfff, //ground colour
           }));
     ground.position.set(0,0,0);
-    ground.castShadow = false;
+    ground.castShadow = true;
     ground.receiveShadow = true;
     ground.rotation.x = -Math.PI / 2;
     this._scene.add(ground);

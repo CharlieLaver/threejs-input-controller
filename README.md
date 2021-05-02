@@ -1,3 +1,5 @@
 TO DO:
 
--3DUX Mobile optimization
+-fix screen squash on small screens
+-increase performance
+-landing page vids
