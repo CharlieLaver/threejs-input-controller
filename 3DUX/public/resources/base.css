@@ -30,28 +30,39 @@ body {
 #enter {
   position: fixed;
   z-index: 1000;
-  width: 70px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
+  background-color: gray;
+  opacity: 0.5;
+  border-radius: 50px;
+  border: gray;
 }
 
 #forward {
-  top: 0%;
+  bottom: 20%;
+  left: 20%;
 }
 
 #backward {
-  top: 5%;
+  bottom: 5%;
+  left: 20%;
 }
 
 #left {
-  top: 10%;
+  bottom: 12.5%;
+  left: 9%;
 }
 
 #right {
-  top: 15%;
+  bottom: 12.5%;
+  left: 30%;
 }
 
 #enter {
-  top: 20%;
+  bottom: 12.5%;
+  right: 10%;
+  height: 60px;
+  width: 60px;
 }
 
 @media only screen and (min-width: 1000px) {

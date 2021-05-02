@@ -336,16 +336,16 @@ class BasicCharacterControllerInput {
     document.addEventListener('keyup', (e) => this._onKeyUp(e), false);
 
     //listerns for btn events
-    document.getElementById('forward').addEventListener('mousedown', () => this._forwardDown(), false);
-    document.getElementById('forward').addEventListener('mouseup', () => this._forwardUp(), false);
-    document.getElementById('backward').addEventListener('mousedown', () => this._backwardDown(), false);
-    document.getElementById('backward').addEventListener('mouseup', () => this._backwardUp(), false);
-    document.getElementById('left').addEventListener('mousedown', () => this._leftDown(), false);
-    document.getElementById('left').addEventListener('mouseup', () => this._leftUp(), false);
-    document.getElementById('right').addEventListener('mousedown', () => this._rightDown(), false);
-    document.getElementById('right').addEventListener('mouseup', () => this._rightUp(), false);
-    document.getElementById('enter').addEventListener('mousedown', () => this._enterDown(), false);
-    document.getElementById('enter').addEventListener('mouseup', () => this._enterUp(), false);
+    document.getElementById('forward').addEventListener('touchstart', () => this._forwardDown(), false);
+    document.getElementById('forward').addEventListener('touchend', () => this._forwardUp(), false);
+    document.getElementById('backward').addEventListener('touchstart', () => this._backwardDown(), false);
+    document.getElementById('backward').addEventListener('touchend', () => this._backwardUp(), false);
+    document.getElementById('left').addEventListener('touchstart', () => this._leftDown(), false);
+    document.getElementById('left').addEventListener('touchend', () => this._leftUp(), false);
+    document.getElementById('right').addEventListener('touchstart', () => this._rightDown(), false);
+    document.getElementById('right').addEventListener('touchend', () => this._rightUp(), false);
+    document.getElementById('enter').addEventListener('touchstart', () => this._enterDown(), false);
+    document.getElementById('enter').addEventListener('touchend', () => this._enterUp(), false);
 
   }
 
@@ -1227,7 +1227,7 @@ const content = {
         document.getElementById('enter').classList.remove('hidden');
 
         document.getElementById('loading').classList.add('hidden');
-        
+
       }
 
      this._threejs.render(this._scene, this._camera);
