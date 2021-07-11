@@ -886,7 +886,7 @@ class ThirdPersonCameraDemo {
     //needs both the .bin and gltf files
     loader.load('./resources/gameObjects/props/tree1/scene.gltf', (gltf) => {
       gltf.scene.traverse(c => {
-        c.castShadow = true;
+        c.castShadow = false;
         c.position.set(20,0,40);
         c.rotation.set(0,0,0);
         c.scale.set(0.7,0.7,0.7); 
@@ -896,8 +896,8 @@ class ThirdPersonCameraDemo {
 
     loader.load('./resources/gameObjects/props/tree2/scene.gltf', (gltf) => {
       gltf.scene.traverse(c => {
-        c.castShadow = true;
-        c.position.set(-30,0,50);
+        c.castShadow = false;
+        c.position.set(-32,0,50);
         c.rotation.set(0,0,0);
         c.scale.set(0.7,0.7,0.7); 
       });
@@ -906,7 +906,7 @@ class ThirdPersonCameraDemo {
 
     loader.load('./resources/gameObjects/props/tree2/scene.gltf', (gltf) => {
       gltf.scene.traverse(c => {
-        c.castShadow = true;
+        c.castShadow = false;
         c.position.set(90,0,0);
         c.rotation.set(0,0,0);
         c.scale.set(0.7,0.7,0.7); 
@@ -916,18 +916,8 @@ class ThirdPersonCameraDemo {
 
     loader.load('./resources/gameObjects/props/tree1/scene.gltf', (gltf) => {
       gltf.scene.traverse(c => {
-        c.castShadow = true;
+        c.castShadow = false;
         c.position.set(-70,0,10);
-        c.rotation.set(0,0,0);
-        c.scale.set(0.7,0.7,0.7); 
-      });
-      this._scene.add(gltf.scene);
-    });
-
-    loader.load('./resources/gameObjects/props/tree2/scene.gltf', (gltf) => {
-      gltf.scene.traverse(c => {
-        c.castShadow = true;
-        c.position.set(-30,0,-110);
         c.rotation.set(0,0,0);
         c.scale.set(0.7,0.7,0.7); 
       });
@@ -936,7 +926,7 @@ class ThirdPersonCameraDemo {
 
     loader.load('./resources/gameObjects/props/tree1/scene.gltf', (gltf) => {
       gltf.scene.traverse(c => {
-        c.castShadow = true;
+        c.castShadow = false;
         c.position.set(40,0,-50);
         c.rotation.set(0,0,0);
         c.scale.set(0.7,0.7,0.7); 
@@ -946,10 +936,50 @@ class ThirdPersonCameraDemo {
 
     loader.load('./resources/gameObjects/props/tree2/scene.gltf', (gltf) => {
       gltf.scene.traverse(c => {
-        c.castShadow = true;
+        c.castShadow = false;
         c.position.set(-30,0,-40);
         c.rotation.set(0,0,0);
         c.scale.set(0.7,0.7,0.7); 
+      });
+      this._scene.add(gltf.scene);
+    });
+
+    loader.load('./resources/gameObjects/props/tree2/scene.gltf', (gltf) => {
+      gltf.scene.traverse(c => {
+        c.castShadow = false;
+        c.position.set(22,0,-10);
+        c.rotation.set(0,0,0);
+        c.scale.set(0.7,0.7,0.7); 
+      });
+      this._scene.add(gltf.scene);
+    });
+
+    loader.load('./resources/gameObjects/props/tree3/scene.gltf', (gltf) => {
+      gltf.scene.traverse(c => {
+        c.castShadow = false;
+        c.position.set(7,1.5,2);
+        c.rotation.set(0,0,0);
+        c.scale.set(1.4,1.4,1.4); 
+      });
+      this._scene.add(gltf.scene);
+    });
+
+    loader.load('./resources/gameObjects/props/tree3/scene.gltf', (gltf) => {
+      gltf.scene.traverse(c => {
+        c.castShadow = false;
+        c.position.set(-6,1.5,-2);
+        c.rotation.set(0,0,0);
+        c.scale.set(1.4,1.4,1.4); 
+      });
+      this._scene.add(gltf.scene);
+    });
+
+    loader.load('./resources/gameObjects/props/tree3/scene.gltf', (gltf) => {
+      gltf.scene.traverse(c => {
+        c.castShadow = false;
+        c.position.set(2,1.5,-8);
+        c.rotation.set(0,0,0);
+        c.scale.set(1.4,1.4,1.4); 
       });
       this._scene.add(gltf.scene);
     });
