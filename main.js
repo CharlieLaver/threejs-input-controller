@@ -14,6 +14,10 @@ var loadingScreen = {
 
 };
 
+var audio = new Audio('./resources/sound/background-music.mp3');
+audio.loop = true;
+audio.play();
+
 var RESOURCES_LOADED = false;
 
 loadingScreen.scene.background = new THREE.Color( '#1E90FF' );
