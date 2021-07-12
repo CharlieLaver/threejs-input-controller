@@ -29,10 +29,6 @@ loadingManager.onLoad = function() {
   RESOURCES_LOADED = true;
 }
 
-window.onload = () => {
-  document.getElementById('background-music').play();
-};
-
 class BasicCharacterControllerProxy {
   constructor(animations) {
     this._animations = animations;
