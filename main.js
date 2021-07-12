@@ -14,10 +14,6 @@ var loadingScreen = {
 
 };
 
-var audio = new Audio('./resources/sound/background-music.mp3');
-audio.loop = true;
-audio.play();
-
 var RESOURCES_LOADED = false;
 
 loadingScreen.scene.background = new THREE.Color( '#1E90FF' );
@@ -33,17 +29,9 @@ loadingManager.onLoad = function() {
   RESOURCES_LOADED = true;
 }
 
-let zoneObj = {
-  zone1: false,
-  zone2: false,
-  zone3: false,
-  zone4: false,
-  zone5: false,
-  zone6: false,
-  zone7: false,
-  zone8: false,
-}
-
+window.onload = () => {
+  document.getElementById('background-music').play();
+};
 
 class BasicCharacterControllerProxy {
   constructor(animations) {
@@ -117,68 +105,7 @@ class BasicCharacterController {
 
   //the players position
   get Position() {
-
-    let currentPosition = this._position;
-    let currZ = Math.round(currentPosition.z);
-    let currX = Math.round(currentPosition.x)
-
-    //github btn
-    if((currZ > 30 && currZ < 65) && (currX > 70 && currX < 105)) {
-        zoneObj.zone1 = true;   
-    } else {
-      zoneObj.zone1 = false;           
-    }
-
-    //youtube btn
-    if((currZ > 140 && currZ < 180) && (currX > 180 && currX < 220)) {
-      zoneObj.zone2 = true;
-    } else {
-      zoneObj.zone2 = false;
-    }
-
-    //contact btn
-    if((currZ > -110 && currZ < -70) && (currX > 120 && currX < 160)) {
-      zoneObj.zone3 = true;
-    } else {
-      zoneObj.zone3 = false;
-    }
-
-    //repo1 btn
-    if((currZ > -290 && currZ < -250) && (currX > 120 && currX < 160)) {
-      zoneObj.zone4 = true;
-    } else {
-      zoneObj.zone4 = false;
-    }
-
-    //repo2 btn
-    if((currZ > -170 && currZ < -130) && (currX > -20 && currX < 20)) {
-      zoneObj.zone5 = true;
-    } else {
-      zoneObj.zone5 = false;
-    }
-
-    //repo3 btn
-    if((currZ > -220 && currZ < -180) && (currX > -140 && currX < -100)) {
-      zoneObj.zone6 = true;
-    } else {
-      zoneObj.zone6 = false;
-    }
-
-    //react btn
-    if((currZ > -80 && currZ < -40) && (currX > -100 && currX < -60)) {
-      zoneObj.zone7 = true;
-    } else {
-      zoneObj.zone7 = false;
-    }
-
-    //games btn
-    if((currZ > 70 && currZ < 110) && (currX > -195 && currX < -155)) {
-      zoneObj.zone8 = true;
-    } else {
-      zoneObj.zone8 = false;
-    }
-
-    return currentPosition;
+    return this._position;;
   }
 
   get Rotation() {
@@ -213,65 +140,6 @@ class BasicCharacterController {
     const _R = controlObject.quaternion.clone();
 
     const acc = this._acceleration.clone();
-
-      // should open a new three js scene but for now just opens my site
-
-      if(zoneObj.zone1) {
-        if(this._input._keys.enter) {
-          this._input._keys.enter = false;
-            window.open("https://charlielaver.com/");
-          }
-      } 
-
-      if(zoneObj.zone2) {
-        if(this._input._keys.enter) {
-          this._input._keys.enter = false;
-            window.open("https://charlielaver.com/");
-          }
-      }
-
-      if(zoneObj.zone3) {
-        if(this._input._keys.enter) {
-          this._input._keys.enter = false;
-            window.open("https://charlielaver.com/");
-          }
-      }
-
-      if(zoneObj.zone4) {
-        if(this._input._keys.enter) {
-          this._input._keys.enter = false;
-            window.open("https://charlielaver.com/");
-          }
-      }
-
-      if(zoneObj.zone5) {
-        if(this._input._keys.enter) {
-          this._input._keys.enter = false;
-            window.open("https://charlielaver.com/");
-          }
-      }
-
-      if(zoneObj.zone6) {
-        if(this._input._keys.enter) {
-          this._input._keys.enter = false;
-            window.open("https://charlielaver.com/");
-          }
-      }
-
-      if(zoneObj.zone7) {
-        if(this._input._keys.enter) {
-          this._input._keys.enter = false;
-            window.open("https://charlielaver.com/");
-          }
-      }
-
-      if(zoneObj.zone8) {
-        if(this._input._keys.enter) {
-          this._input._keys.enter = false;
-            window.open("https://charlielaver.com/");
-          }
-      }
-    
 
     //set user speed here
     if (this._input._keys.forward) {
@@ -320,7 +188,6 @@ class BasicCharacterController {
   }
 };
 
-
 //listerns for keyboard and button input
 class BasicCharacterControllerInput {
   constructor() {
@@ -333,7 +200,6 @@ class BasicCharacterControllerInput {
       backward: false,
       left: false,
       right: false,
-      enter: false,
     };
     //listerns to key up & down events
     document.addEventListener('keydown', (e) => this._onKeyDown(e), false);
@@ -348,9 +214,6 @@ class BasicCharacterControllerInput {
     document.getElementById('left').addEventListener('touchend', () => this._leftUp(), false);
     document.getElementById('right').addEventListener('touchstart', () => this._rightDown(), false);
     document.getElementById('right').addEventListener('touchend', () => this._rightUp(), false);
-    document.getElementById('enter').addEventListener('touchstart', () => this._enterDown(), false);
-    document.getElementById('enter').addEventListener('touchend', () => this._enterUp(), false);
-
   }
 
   //mobile navigation
@@ -384,14 +247,6 @@ class BasicCharacterControllerInput {
 
   _rightUp() {
     this._keys.right = false;
-  }
-
-  _enterDown() {
-    this._keys.enter = true;
-  }
-
-  _enterUp() {
-    this._keys.enter = false;
   }
 
   //keyboard navigation
@@ -764,7 +619,6 @@ class ThirdPersonCameraDemo {
     this._LoadModel();
     this._LoadNpcModel();
     this._LoadGUI();
-    this._LoadBtns();
     this._RAF();
   }
 
@@ -775,11 +629,12 @@ class ThirdPersonCameraDemo {
 
     //model start
     loader.setPath('./resources/gameObjects/npc/');
-    loader.load('npc1.fbx', (fbx) => {
+    loader.load('npc.fbx', (fbx) => {
       fbx.scale.setScalar(0.15); //sets scale
-      fbx.position.set(-50,0,-130); //sets position
+      fbx.position.set(0,0,90); //sets position
+      fbx.rotation.set(0,3,0);
       fbx.traverse(c => {
-        c.castShadow = true;
+        c.castShadow = false;
       });
 
       const anim = new FBXLoader(loadingManager);
@@ -794,95 +649,6 @@ class ThirdPersonCameraDemo {
     });
     //model end
 
-    //model start
-    loader.setPath('./resources/gameObjects/npc/');
-    loader.load('npc2.fbx', (fbx) => {
-      fbx.scale.setScalar(0.15); //sets scale
-      fbx.position.set(0,0,90); //sets position
-      fbx.rotation.set(0,3,0);
-      fbx.traverse(c => {
-        c.castShadow = true;
-      });
-
-      const anim = new FBXLoader(loadingManager);
-      anim.setPath('./resources/gameObjects/npc/');
-      anim.load('dance5.fbx', (anim) => {
-        const m = new THREE.AnimationMixer(fbx);
-        this._mixers.push(m);
-        const idle = m.clipAction(anim.animations[0]);
-        idle.play();
-      });
-      this._scene.add(fbx);
-    });
-    //model end
-
-    //model start
-    loader.setPath('./resources/gameObjects/npc/');
-    loader.load('npc1.fbx', (fbx) => {
-      fbx.scale.setScalar(0.15); //sets scale
-      fbx.position.set(-140,0,0); //sets position
-      fbx.rotation.set(0,2,0);
-      fbx.traverse(c => {
-        c.castShadow = true;
-      });
-
-      const anim = new FBXLoader(loadingManager);
-      anim.setPath('./resources/gameObjects/npc/');
-      anim.load('dance3.fbx', (anim) => {
-        const m = new THREE.AnimationMixer(fbx);
-        this._mixers.push(m);
-        const idle = m.clipAction(anim.animations[0]);
-        idle.play();
-      });
-      this._scene.add(fbx);
-    });
-    //model end
-
-    //model start
-    loader.setPath('./resources/gameObjects/npc/');
-    loader.load('npc2.fbx', (fbx) => {
-      fbx.scale.setScalar(0.15); //sets scale
-      fbx.position.set(0,0,-220); //sets position
-      fbx.rotation.set(0,0,0);
-      fbx.traverse(c => {
-        c.castShadow = true;
-      });
-
-      const anim = new FBXLoader(loadingManager);
-      anim.setPath('./resources/gameObjects/npc/');
-      anim.load('dance4.fbx', (anim) => {
-        const m = new THREE.AnimationMixer(fbx);
-        this._mixers.push(m);
-        const idle = m.clipAction(anim.animations[0]);
-        idle.play();
-      });
-      this._scene.add(fbx);
-    });
-    //model end
-
-    //model start
-    loader.setPath('./resources/gameObjects/npc/');
-    loader.load('npc1.fbx', (fbx) => {
-      fbx.scale.setScalar(0.15); //sets scale
-      fbx.position.set(140,0,0); //sets position
-      fbx.rotation.set(0,4,0);
-      fbx.traverse(c => {
-        c.castShadow = true;
-      });
-
-      const anim = new FBXLoader(loadingManager);
-      anim.setPath('./resources/gameObjects/npc/');
-      anim.load('dance2.fbx', (anim) => {
-        const m = new THREE.AnimationMixer(fbx);
-        this._mixers.push(m);
-        const idle = m.clipAction(anim.animations[0]);
-        idle.play();
-      });
-      this._scene.add(fbx);
-    });
-    //model end
-
-    
   }
 
   _LoadModel() {
@@ -891,7 +657,7 @@ class ThirdPersonCameraDemo {
     loader.load('./resources/gameObjects/props/tree1/scene.gltf', (gltf) => {
       gltf.scene.traverse(c => {
         c.castShadow = false;
-        c.position.set(20,0,40);
+        c.position.set(90,0,100);
         c.rotation.set(0,0,0);
         c.scale.set(0.7,0.7,0.7); 
       });
@@ -901,7 +667,7 @@ class ThirdPersonCameraDemo {
     loader.load('./resources/gameObjects/props/tree2/scene.gltf', (gltf) => {
       gltf.scene.traverse(c => {
         c.castShadow = false;
-        c.position.set(-32,0,50);
+        c.position.set(-40,0,80);
         c.rotation.set(0,0,0);
         c.scale.set(0.7,0.7,0.7); 
       });
@@ -911,7 +677,7 @@ class ThirdPersonCameraDemo {
     loader.load('./resources/gameObjects/props/tree2/scene.gltf', (gltf) => {
       gltf.scene.traverse(c => {
         c.castShadow = false;
-        c.position.set(90,0,0);
+        c.position.set(140,0,-10);
         c.rotation.set(0,0,0);
         c.scale.set(0.7,0.7,0.7); 
       });
@@ -921,7 +687,7 @@ class ThirdPersonCameraDemo {
     loader.load('./resources/gameObjects/props/tree1/scene.gltf', (gltf) => {
       gltf.scene.traverse(c => {
         c.castShadow = false;
-        c.position.set(-70,0,10);
+        c.position.set(-100,0,5);
         c.rotation.set(0,0,0);
         c.scale.set(0.7,0.7,0.7); 
       });
@@ -931,7 +697,7 @@ class ThirdPersonCameraDemo {
     loader.load('./resources/gameObjects/props/tree1/scene.gltf', (gltf) => {
       gltf.scene.traverse(c => {
         c.castShadow = false;
-        c.position.set(40,0,-50);
+        c.position.set(60,0,-80);
         c.rotation.set(0,0,0);
         c.scale.set(0.7,0.7,0.7); 
       });
@@ -941,49 +707,9 @@ class ThirdPersonCameraDemo {
     loader.load('./resources/gameObjects/props/tree2/scene.gltf', (gltf) => {
       gltf.scene.traverse(c => {
         c.castShadow = false;
-        c.position.set(-30,0,-40);
+        c.position.set(-110,0,-100);
         c.rotation.set(0,0,0);
         c.scale.set(0.7,0.7,0.7); 
-      });
-      this._scene.add(gltf.scene);
-    });
-
-    loader.load('./resources/gameObjects/props/tree2/scene.gltf', (gltf) => {
-      gltf.scene.traverse(c => {
-        c.castShadow = false;
-        c.position.set(22,0,-10);
-        c.rotation.set(0,0,0);
-        c.scale.set(0.7,0.7,0.7); 
-      });
-      this._scene.add(gltf.scene);
-    });
-
-    loader.load('./resources/gameObjects/props/tree3/scene.gltf', (gltf) => {
-      gltf.scene.traverse(c => {
-        c.castShadow = false;
-        c.position.set(7,1.5,2);
-        c.rotation.set(0,0,0);
-        c.scale.set(1.4,1.4,1.4); 
-      });
-      this._scene.add(gltf.scene);
-    });
-
-    loader.load('./resources/gameObjects/props/tree3/scene.gltf', (gltf) => {
-      gltf.scene.traverse(c => {
-        c.castShadow = false;
-        c.position.set(-6,1.5,-2);
-        c.rotation.set(0,0,0);
-        c.scale.set(1.4,1.4,1.4); 
-      });
-      this._scene.add(gltf.scene);
-    });
-
-    loader.load('./resources/gameObjects/props/tree3/scene.gltf', (gltf) => {
-      gltf.scene.traverse(c => {
-        c.castShadow = false;
-        c.position.set(2,1.5,-8);
-        c.rotation.set(0,0,0);
-        c.scale.set(1.4,1.4,1.4); 
       });
       this._scene.add(gltf.scene);
     });
@@ -1010,12 +736,12 @@ class ThirdPersonCameraDemo {
         backgroundColor: "#000",
         fontColor: "#bbb",
     },
-    image: { type: "img", position: { left: 100, top: 10 }, width: 300, height: 300 },
+    image: { type: "img", position: { left: 100, top: 50 }, width: 300, height: 300 },
 
 }
 const content = {
     header: "USE ARROW KEYS TO MOVE",
-    main: "PRESS ENTER WHEN ON A RED MAT TO CHANGE ZONE",
+    // main: "By Charlie Laver",
     image: "./resources/images/keys.png",
 }
 
@@ -1027,99 +753,6 @@ const content = {
     this._scene.add(ui.mesh);
 
   }
-
-  _LoadBtns() {
-
-    const btn1 = new THREE.Mesh(
-      new THREE.BoxGeometry(40,40),
-      new THREE.MeshStandardMaterial({
-          color: 0xDC143C, //ground colour
-        }));
-    btn1.position.set(90,0,48);
-    btn1.castShadow = false;
-    btn1.receiveShadow = true;
-    btn1.rotation.x = -Math.PI / 2;
-    this._scene.add(btn1);
-
-    const btn2 = new THREE.Mesh(
-      new THREE.BoxGeometry(40,40),
-      new THREE.MeshStandardMaterial({
-          color: 0xDC143C, //ground colour
-        }));
-    btn2.position.set(200,0,160);
-    btn2.castShadow = false;
-    btn2.receiveShadow = true;
-    btn2.rotation.x = -Math.PI / 2;
-    this._scene.add(btn2);
-
-    const btn3 = new THREE.Mesh(
-      new THREE.BoxGeometry(40,40),
-      new THREE.MeshStandardMaterial({
-          color: 0xDC143C, //ground colour
-        }));
-    btn3.position.set(140,0,-90);
-    btn3.castShadow = false;
-    btn3.receiveShadow = true;
-    btn3.rotation.x = -Math.PI / 2;
-    this._scene.add(btn3);
-
-    const btn4 = new THREE.Mesh(
-      new THREE.BoxGeometry(40,40),
-      new THREE.MeshStandardMaterial({
-          color: 0xDC143C, //ground colour
-        }));
-    btn4.position.set(140,0,-270);
-    btn4.castShadow = false;
-    btn4.receiveShadow = true;
-    btn4.rotation.x = -Math.PI / 2;
-    this._scene.add(btn4);
-
-    const btn5 = new THREE.Mesh(
-      new THREE.BoxGeometry(40,40),
-      new THREE.MeshStandardMaterial({
-          color: 0xDC143C, //ground colour
-        }));
-    btn5.position.set(0,0,-150);
-    btn5.castShadow = false;
-    btn5.receiveShadow = true;
-    btn5.rotation.x = -Math.PI / 2;
-    this._scene.add(btn5);
-
-    const btn6 = new THREE.Mesh(
-      new THREE.BoxGeometry(40,40),
-      new THREE.MeshStandardMaterial({
-          color: 0xDC143C, //ground colour
-        }));
-    btn6.position.set(-120,0,-200);
-    btn6.castShadow = false;
-    btn6.receiveShadow = true;
-    btn6.rotation.x = -Math.PI / 2;
-    this._scene.add(btn6);
-
-    const btn7 = new THREE.Mesh(
-      new THREE.BoxGeometry(40,40),
-      new THREE.MeshStandardMaterial({
-          color: 0xDC143C, //ground colour
-        }));
-    btn7.position.set(-80,0,-60);
-    btn7.castShadow = false;
-    btn7.receiveShadow = true;
-    btn7.rotation.x = -Math.PI / 2;
-    this._scene.add(btn7);
-
-    const btn8 = new THREE.Mesh(
-      new THREE.BoxGeometry(40,40),
-      new THREE.MeshStandardMaterial({
-          color: 0xDC143C, //ground colour
-        }));
-    btn8.position.set(-175,0,90);
-    btn8.castShadow = false;
-    btn8.receiveShadow = true;
-    btn8.rotation.x = -Math.PI / 2;
-    this._scene.add(btn8);
-
-  }
-
   
   _LoadAnimatedModel() {
     const params = {
@@ -1158,7 +791,6 @@ const content = {
         document.getElementById('backward').classList.add('hidden');
         document.getElementById('left').classList.add('hidden');
         document.getElementById('right').classList.add('hidden');
-        document.getElementById('enter').classList.add('hidden');
 
         loadingScreen.box.rotation.y += 0.01;
         loadingScreen.box.rotation.z += 0.01;
@@ -1170,7 +802,6 @@ const content = {
         document.getElementById('backward').classList.remove('hidden');
         document.getElementById('left').classList.remove('hidden');
         document.getElementById('right').classList.remove('hidden');
-        document.getElementById('enter').classList.remove('hidden');
 
         document.getElementById('loading').classList.add('hidden');
 

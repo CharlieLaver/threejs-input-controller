@@ -58,13 +58,6 @@ body {
   left: 30%;
 }
 
-#enter {
-  bottom: 12.5%;
-  right: 10%;
-  height: 60px;
-  width: 60px;
-}
-
 @media only screen and (min-width: 1000px) {
   #forward,
   #backward,
