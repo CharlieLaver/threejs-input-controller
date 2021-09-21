@@ -1,7 +1,9 @@
 # threejs-browser-environment
 
-This is a 3D environment build using Three.JS. All the JavaScript behind this is found in the main.js file. Please feel free to contribute to or use this repo as you please. The project is currently hosted here: https://charlielaver.github.io/threejs-browser-environment/
+Interactive 3d environment, navigated with a third-person controller. Runs in any major browser and is built with three.js.
+The project is split up into object orientated components which contains different functionality for each aspect of the environment.
 
-TO DO:
--fix screen squash on small screens
--fade in on start of scene
+The project is hosted here: https://charlielaver.github.io/threejs-browser-environment/
+
+![three](https://user-images.githubusercontent.com/73779192/134232855-703306cd-a98a-4939-b99d-9deacad21912.PNG)
+
